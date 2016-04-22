@@ -11,17 +11,21 @@ namespace GA
        private static bool m_elite = true;
        private static bool m_evolving = false;
        private static int m_generation = 0;
+
+        /// <summary>
+        /// Evolves population
+        /// </summary>
+        /// <param name="population"> population to be evolved (use ref keyword)</param>
        public static void EvolvePopulation(ref Population population)
         {
             if (m_evolving)
             {
-                Debug.Log("is evolving");
                 return;
             }
 
             if (population == null || population.GetGenome(0) == null)
             {
-                Debug.Log("null pop");
+                Debug.LogError("POPULATION IS NULL, WTF ARE YOU DOING?");
                 return;
             }
 
@@ -66,6 +70,9 @@ namespace GA
             m_evolving = false;
         }
 
+        /// <summary>
+        /// used to reset generation count, rought implem, needs rework
+        /// </summary>
         public static void ResetGenerationCount()
         {
             m_generation = 0;
@@ -79,6 +86,12 @@ namespace GA
             }
         }
 
+
+        /// <summary>
+        /// Selects the fittest genome out of a given number of genomes within a population
+        /// </summary>
+        /// <param name="population"></param>
+        /// <returns></returns>
         private static Genome SelectionByTournament(Population population)
         {
 
@@ -99,6 +112,12 @@ namespace GA
             return geno;
         }
 
+        /// <summary>
+        /// Cross over function, breeds children from parent genomes
+        /// </summary>
+        /// <param name="genoA"></param>
+        /// <param name="genoB"></param>
+        /// <returns></returns>
         private static Genome[] CrossOver(Genome genoA, Genome genoB)
         {
             if (genoA == null || genoB == null)
@@ -156,6 +175,10 @@ namespace GA
 
         }
 
+        /// <summary>
+        /// Mutation function called after crossover, mutates genome randomly
+        /// </summary>
+        /// <param name="geno"></param>
         private static void Mutate(Genome geno)
         {
             System.Random rand = new System.Random();
