@@ -8,7 +8,7 @@ public class WorldRunner : MonoBehaviour {
     System.Random rand;
     int genomeSize = 8; // number of genes in genome;
     int populationSize = 100;
-    WaitForSeconds m_w8;
+    WaitForEndOfFrame m_w8;
     //
     bool m_running;
     Population population;
@@ -16,7 +16,7 @@ public class WorldRunner : MonoBehaviour {
 	void Start () {
 
         m_running = true;
-        m_w8 = new WaitForSeconds(Time.deltaTime);
+        m_w8 = new WaitForEndOfFrame();
         rand = new System.Random();
         int[] currentGoal = new int[genomeSize];
         //create Random goal 
