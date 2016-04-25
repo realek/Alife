@@ -139,6 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37a53e030db92043bbbdc3eb5103008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Size: 1
+  NumberOfLegs: 1
 --- !u!4 &1869082206
 Transform:
   m_ObjectHideFlags: 0
@@ -250,8 +252,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 380019550}
-  _distance: 5
-  _zoomStep: 1
+  _distance: 20
+  _zoomStep: 10
   _xSpeed: 4
   _ySpeed: 4
 --- !u!1 &2063491759
