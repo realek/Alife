@@ -10,6 +10,7 @@ public class MonsterRenderer : MonoBehaviour {
 
     public float Size;
     public int NumberOfLegs;
+    public int NumberOfArms;
 
     public Color CreatureColor;
 
@@ -18,7 +19,7 @@ public class MonsterRenderer : MonoBehaviour {
         p_Body = Resources.Load("BodyParts/Body") as GameObject;
         p_Leg = Resources.Load("BodyParts/Leg") as GameObject;
         p_Head = Resources.Load("BodyParts/Head") as GameObject;
-        CreateMonster(Size,NumberOfLegs,CreatureColor);
+        CreateMonster(Size,NumberOfLegs,NumberOfArms,CreatureColor);
 	}
 
     void InstantiatePart(GameObject part, Transform where)
@@ -44,7 +45,7 @@ public class MonsterRenderer : MonoBehaviour {
         
     }
 
-    public void CreateMonster(float size,int nlegs,Color color) {
+    public void CreateMonster(float size,int nlegs,int narms,Color color) {
         GameObject goBody = Instantiate(p_Body);
         currentBody = goBody.transform;
 
@@ -52,12 +53,16 @@ public class MonsterRenderer : MonoBehaviour {
 
         BodySocketManager bsm = goBody.GetComponent<BodySocketManager>();   
         
-        //resize body considering nlegs
+        //resize body considering nlegs and arms
         GameObject bodymodel = bsm.BodyModel;
         float length;
         length = 1+nlegs / 2;
-        bodymodel.transform.localScale = new Vector3(bodymodel.transform.localScale.x*length, bodymodel.transform.localScale.y, bodymodel.transform.localScale.x);
+        
+        float height = 1 + narms / 2;
 
+        bodymodel.transform.localScale = new Vector3(bodymodel.transform.localScale.x * length, bodymodel.transform.localScale.y*height, bodymodel.transform.localScale.x);
+
+        
 
 
         // head
@@ -79,6 +84,23 @@ public class MonsterRenderer : MonoBehaviour {
 
         PlaceLegs(bsm.LeftLegSocketStart, bsm.LeftLegSocketEnd, left_legs);
         PlaceLegs(bsm.RightLegSocketStart, bsm.RightLegSocketEnd, right_legs);
+
+        /// arms
+
+        int right_arms, left_arms;
+        if (narms % 2 == 0) //even number of legs
+        {
+            right_arms = narms / 2;
+            left_arms = narms / 2;
+        }
+        else //uneven number of legs
+        {
+            right_arms = (narms - 1) / 2 + 1;
+            left_arms = (narms - 1) / 2;
+        }
+
+        PlaceLegs(bsm.RightArmSocketEnd, bsm.RightArmSocketStart, right_arms);
+        PlaceLegs(bsm.LeftArmSocketEnd, bsm.LeftArmSocketStart, left_arms);
 
        
         //handle size
