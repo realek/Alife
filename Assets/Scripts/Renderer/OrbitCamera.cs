@@ -51,7 +51,7 @@ public class OrbitCamera : MonoBehaviour
 
         Vector2 angles = this.transform.localEulerAngles;
         _x = angles.x;
-        _y = angles.y;
+        _y =  angles.y;
 
         this.Rotate(_x, _y);
 
