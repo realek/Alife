@@ -11,12 +11,14 @@ public class MonsterRenderer : MonoBehaviour {
     public float Size;
     public int NumberOfLegs;
 
+    public Color CreatureColor;
+
 	// Use this for initialization
 	void Start () {
         p_Body = Resources.Load("BodyParts/Body") as GameObject;
         p_Leg = Resources.Load("BodyParts/Leg") as GameObject;
         p_Head = Resources.Load("BodyParts/Head") as GameObject;
-        CreateMonster(Size,NumberOfLegs);
+        CreateMonster(Size,NumberOfLegs,CreatureColor);
 	}
 
     void InstantiatePart(GameObject part, Transform where)
@@ -42,7 +44,7 @@ public class MonsterRenderer : MonoBehaviour {
         
     }
 
-    public void CreateMonster(float size,int nlegs) {
+    public void CreateMonster(float size,int nlegs,Color color) {
         GameObject goBody = Instantiate(p_Body);
         currentBody = goBody.transform;
 
@@ -82,6 +84,35 @@ public class MonsterRenderer : MonoBehaviour {
         //handle size
         currentBody.transform.localScale = Vector3.one * size;
 
+        //handle color
+        HandleColors(color);
+        
 
+    }
+
+    void ColorPartOfCreature(string tagname, Color color) {
+
+        GameObject[] list = GameObject.FindGameObjectsWithTag(tagname);
+        for (int i = 0; i < list.Length; i++)
+        {
+            list[i].GetComponent<Renderer>().material.color = color;
+        }
+       
+    
+    }
+
+    void HandleColors(Color color) {
+
+        //head
+        ColorPartOfCreature("Head", color);
+
+        //legs
+        ColorPartOfCreature("Leg", Color.Lerp( color, Color.black,0.5f));
+
+
+        //body
+        ColorPartOfCreature("Body", Color.Lerp(color, Color.white, 0.1f));
+
+    
     }
 }

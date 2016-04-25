@@ -1,0 +1,206 @@
+[1mdiff --git a/Assets/Resources/BodyParts/Body.prefab b/Assets/Resources/BodyParts/Body.prefab[m
+[1mindex 726aa3d..9d2e66d 100644[m
+[1m--- a/Assets/Resources/BodyParts/Body.prefab[m
+[1m+++ b/Assets/Resources/BodyParts/Body.prefab[m
+[36m@@ -28,7 +28,7 @@[m [mGameObject:[m
+   - 23: {fileID: 2361782}[m
+   m_Layer: 0[m
+   m_Name: Model[m
+[31m-  m_TagString: Untagged[m
+[32m+[m[32m  m_TagString: Body[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+[1mdiff --git a/Assets/Resources/BodyParts/Head.prefab b/Assets/Resources/BodyParts/Head.prefab[m
+[1mindex 7d07073..159c6d8 100644[m
+[1m--- a/Assets/Resources/BodyParts/Head.prefab[m
+[1m+++ b/Assets/Resources/BodyParts/Head.prefab[m
+[36m@@ -13,7 +13,7 @@[m [mGameObject:[m
+   - 23: {fileID: 2398226}[m
+   m_Layer: 0[m
+   m_Name: Cube[m
+[31m-  m_TagString: Untagged[m
+[32m+[m[32m  m_TagString: Head[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+[1mdiff --git a/Assets/Resources/BodyParts/Leg.prefab b/Assets/Resources/BodyParts/Leg.prefab[m
+[1mindex 31b8edc..14e3a0a 100644[m
+[1m--- a/Assets/Resources/BodyParts/Leg.prefab[m
+[1m+++ b/Assets/Resources/BodyParts/Leg.prefab[m
+[36m@@ -13,7 +13,7 @@[m [mGameObject:[m
+   - 23: {fileID: 2311312}[m
+   m_Layer: 0[m
+   m_Name: Cube (1)[m
+[31m-  m_TagString: Untagged[m
+[32m+[m[32m  m_TagString: Leg[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+[36m@@ -31,7 +31,7 @@[m [mGameObject:[m
+   - 23: {fileID: 2336502}[m
+   m_Layer: 0[m
+   m_Name: Cube[m
+[31m-  m_TagString: Untagged[m
+[32m+[m[32m  m_TagString: Leg[m
+   m_Icon: {fileID: 0}[m
+   m_NavMeshLayer: 0[m
+   m_StaticEditorFlags: 0[m
+[1mdiff --git a/Assets/Scripts/Renderer/MonsterRenderer.cs b/Assets/Scripts/Renderer/MonsterRenderer.cs[m
+[1mindex 69973ae..c34e542 100644[m
+[1m--- a/Assets/Scripts/Renderer/MonsterRenderer.cs[m
+[1m+++ b/Assets/Scripts/Renderer/MonsterRenderer.cs[m
+[36m@@ -11,12 +11,14 @@[m [mpublic class MonsterRenderer : MonoBehaviour {[m
+     public float Size;[m
+     public int NumberOfLegs;[m
+ [m
+[32m+[m[32m    public Color CreatureColor;[m
+[32m+[m
+ 	// Use this for initialization[m
+ 	void Start () {[m
+         p_Body = Resources.Load("BodyParts/Body") as GameObject;[m
+         p_Leg = Resources.Load("BodyParts/Leg") as GameObject;[m
+         p_Head = Resources.Load("BodyParts/Head") as GameObject;[m
+[31m-        CreateMonster(Size,NumberOfLegs);[m
+[32m+[m[32m        CreateMonster(Size,NumberOfLegs,CreatureColor);[m
+ 	}[m
+ [m
+     void InstantiatePart(GameObject part, Transform where)[m
+[36m@@ -42,7 +44,7 @@[m [mpublic class MonsterRenderer : MonoBehaviour {[m
+         [m
+     }[m
+ [m
+[31m-    public void CreateMonster(float size,int nlegs) {[m
+[32m+[m[32m    public void CreateMonster(float size,int nlegs,Color color) {[m
+         GameObject goBody = Instantiate(p_Body);[m
+         currentBody = goBody.transform;[m
+ [m
+[36m@@ -82,6 +84,35 @@[m [mpublic class MonsterRenderer : MonoBehaviour {[m
+         //handle size[m
+         currentBody.transform.localScale = Vector3.one * size;[m
+ [m
+[32m+[m[32m        //handle color[m
+[32m+[m[32m        HandleColors(color);[m
+[32m+[m[41m        [m
+[32m+[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    void ColorPartOfCreature(string tagname, Color color) {[m
+[32m+[m
+[32m+[m[32m        GameObject[] list = GameObject.FindGameObjectsWithTag(tagname);[m
+[32m+[m[32m        for (int i = 0; i < list.Length; i++)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            list[i].GetComponent<Renderer>().material.color = color;[m
+[32m+[m[32m        }[m
+[32m+[m[41m       [m
+[32m+[m[41m    [m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    void HandleColors(Color color) {[m
+[32m+[m
+[32m+[m[32m        //head[m
+[32m+[m[32m        ColorPartOfCreature("Head", color);[m
+[32m+[m
+[32m+[m[32m        //legs[m
+[32m+[m[32m        ColorPartOfCreature("Leg", Color.Lerp( color, Color.black,0.5f));[m
+[32m+[m
+[32m+[m
+[32m+[m[32m        //body[m
+[32m+[m[32m        ColorPartOfCreature("Body", Color.Lerp(color, Color.white, 0.1f));[m
+ [m
+[32m+[m[41m    [m
+     }[m
+ }[m
+[1mdiff --git a/Assets/pabloScene.unity b/Assets/pabloScene.unity[m
+[1mindex 2ac3245..d098365 100644[m
+[1m--- a/Assets/pabloScene.unity[m
+[1m+++ b/Assets/pabloScene.unity[m
+[36m@@ -112,6 +112,48 @@[m [mTransform:[m
+   m_Children: [][m
+   m_Father: {fileID: 0}[m
+   m_RootOrder: 3[m
+[32m+[m[32m--- !u!1001 &1766977528[m
+[32m+[m[32mPrefab:[m
+[32m+[m[32m  m_ObjectHideFlags: 0[m
+[32m+[m[32m  serializedVersion: 2[m
+[32m+[m[32m  m_Modification:[m
+[32m+[m[32m    m_TransformParent: {fileID: 0}[m
+[32m+[m[32m    m_Modifications:[m
+[32m+[m[32m    - target: {fileID: 499896, guid: 0cc3eacb0e11d514e87d23c7dd489b1a, type: 2}[m
+[32m+[m[32m      propertyPath: m_LocalPosition.x[m
+[32m+[m[32m      value: 0[m
+[32m+[m[32m      objectReference: {fileID: 0}[m
+[32m+[m[32m    - target: {fileID: 499896, guid: 0cc3eacb0e11d514e87d23c7dd489b1a, type: 2}[m
+[32m+[m[32m      propertyPath: m_LocalPosition.y[m
+[32m+[m[32m      value: 0[m
+[32m+[m[32m      objectReference: {fileID: 0}[m
+[32m+[m[32m    - target: {fileID: 499896, guid: 0cc3eacb0e11d514e87d23c7dd489b1a, type: 2}[m
+[32m+[m[32m      propertyPath: m_LocalPosition.z[m
+[32m+[m[32m      value: 0[m
+[32m+[m[32m      objectReference: {fileID: 0}[m
+[32m+[m[32m    - target: {fileID: 499896, guid: 0cc3eacb0e11d514e87d23c7dd489b1a, type: 2}[m
+[32m+[m[32m      propertyPath: m_LocalRotation.x[m
+[32m+[m[32m      value: 0[m
+[32m+[m[32m      objectReference: {fileID: 0}[m
+[32m+[m[32m    - target: {fileID: 499896, guid: 0cc3eacb0e11d514e87d23c7dd489b1a, type: 2}[m
+[32m+[m[32m      propertyPath: m_LocalRotation.y[m
+[32m+[m[32m      value: 0[m
+[32m+[m[32m      objectReference: {fileID: 0}[m
+[32m+[m[32m    - target: {fileID: 499896, guid: 0cc3eacb0e11d514e87d23c7dd489b1a, type: 2}[m
+[32m+[m[32m      propertyPath: m_LocalRotation.z[m
+[32m+[m[32m      value: 0[m
+[32m+[m[32m      objectReference: {fileID: 0}[m
+[32m+[m[32m    - target: {fileID: 499896, guid: 0cc3eacb0e11d514e87d23c7dd489b1a, type: 2}[m
+[32m+[m[32m      propertyPath: m_LocalRotation.w[m
+[32m+[m[32m      value: 1[m
+[32m+[m[32m      objectReference: {fileID: 0}[m
+[32m+[m[32m    - target: {fileID: 499896, guid: 0cc3eacb0e11d514e87d23c7dd489b1a, type: 2}[m
+[32m+[m[32m      propertyPath: m_RootOrder[m
+[32m+[m[32m      value: 4[m
+[32m+[m[32m      objectReference: {fileID: 0}[m
+[32m+[m[32m    m_RemovedComponents: [][m
+[32m+[m[32m  m_ParentPrefab: {fileID: 100100000, guid: 0cc3eacb0e11d514e87d23c7dd489b1a, type: 2}[m
+[32m+[m[32m  m_IsPrefabParent: 0[m
+ --- !u!1 &1869082204[m
+ GameObject:[m
+   m_ObjectHideFlags: 0[m
+[36m@@ -140,7 +182,8 @@[m [mMonoBehaviour:[m
+   m_Name: [m
+   m_EditorClassIdentifier: [m
+   Size: 1[m
+[31m-  NumberOfLegs: 1[m
+[32m+[m[32m  NumberOfLegs: 5[m
+[32m+[m[32m  CreatureColor: {r: 0.9705882, g: 0, b: 0, a: 0}[m
+ --- !u!4 &1869082206[m
+ Transform:[m
+   m_ObjectHideFlags: 0[m
+[1mdiff --git a/ProjectSettings/TagManager.asset b/ProjectSettings/TagManager.asset[m
+[1mindex 1c92a78..9295083 100644[m
+[1m--- a/ProjectSettings/TagManager.asset[m
+[1m+++ b/ProjectSettings/TagManager.asset[m
+[36m@@ -3,7 +3,10 @@[m
+ --- !u!78 &1[m
+ TagManager:[m
+   serializedVersion: 2[m
+[31m-  tags: [][m
+[32m+[m[32m  tags:[m
+[32m+[m[32m  - Body[m
+[32m+[m[32m  - Leg[m
+[32m+[m[32m  - Head[m
+   layers:[m
+   - Default[m
+   - TransparentFX[m
+warning: LF will be replaced by CRLF in ProjectSettings/ProjectSettings.asset.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in Assets/Resources/BodyParts/Body.prefab.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in Assets/Resources/BodyParts/Head.prefab.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in Assets/Resources/BodyParts/Leg.prefab.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in Assets/Scripts/Renderer/MonsterRenderer.cs.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in Assets/pabloScene.unity.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in ProjectSettings/TagManager.asset.
+The file will have its original line endings in your working directory.
