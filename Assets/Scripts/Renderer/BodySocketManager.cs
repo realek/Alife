@@ -10,6 +10,8 @@ public class BodySocketManager : MonoBehaviour {
     public GameObject RightLegSocketStart;
     public GameObject RightLegSocketEnd;
 
+    public GameObject BodyModel;
+
 	// Use this for initialization
 	void Start () {
 	

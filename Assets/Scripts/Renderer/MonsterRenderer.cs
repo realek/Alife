@@ -8,12 +8,15 @@ public class MonsterRenderer : MonoBehaviour {
 
     Transform currentBody;
 
+    public float Size;
+    public int NumberOfLegs;
+
 	// Use this for initialization
 	void Start () {
         p_Body = Resources.Load("BodyParts/Body") as GameObject;
         p_Leg = Resources.Load("BodyParts/Leg") as GameObject;
         p_Head = Resources.Load("BodyParts/Head") as GameObject;
-        CreateMonster(3f,10);
+        CreateMonster(Size,NumberOfLegs);
 	}
 
     void InstantiatePart(GameObject part, Transform where)
@@ -45,7 +48,16 @@ public class MonsterRenderer : MonoBehaviour {
 
         
 
-        BodySocketManager bsm = goBody.GetComponent<BodySocketManager>();        
+        BodySocketManager bsm = goBody.GetComponent<BodySocketManager>();   
+        
+        //resize body considering nlegs
+        GameObject bodymodel = bsm.BodyModel;
+        float length;
+        length = 1+nlegs / 2;
+        bodymodel.transform.localScale = new Vector3(bodymodel.transform.localScale.x*length, bodymodel.transform.localScale.y, bodymodel.transform.localScale.x);
+
+
+
         // head
         InstantiatePart(p_Head, bsm.HeadSocket.transform);
 
@@ -66,34 +78,7 @@ public class MonsterRenderer : MonoBehaviour {
         PlaceLegs(bsm.LeftLegSocketStart, bsm.LeftLegSocketEnd, left_legs);
         PlaceLegs(bsm.RightLegSocketStart, bsm.RightLegSocketEnd, right_legs);
 
-        /*
-        for (int i = 0; i < nlegs; i++)
-        {
-            float percent = (i+1) / (float) (1 + nlegs);
-            //percent = 0.5f;
-            Debug.Log(percent);
-            Transform t = new GameObject().transform;
-            t.position = Vector3.Lerp(bsm.LegSocketStart.transform.position,bsm.LegSocketEnd.transform.position,percent);
-            t.rotation = bsm.LegSocketEnd.transform.rotation;
-            InstantiatePart(p_Leg, t);
-        }
-
-
-        //legs
-        for (int i = 0; i < nlegs; i++)
-        {
-            float percent = (i + 1) / (float)(1 + nlegs);
-            //percent = 0.5f;
-            Debug.Log(percent);
-            Transform t = new GameObject().transform;
-            t.position = Vector3.Lerp(bsm.RightSocketStart.transform.position, bsm.RightSocketEnd.transform.position, percent);
-            t.rotation = bsm.RightSocketEnd.transform.rotation;
-            InstantiatePart(p_Leg, t);
-        }
-         * 
-         * */
-
-
+       
         //handle size
         currentBody.transform.localScale = Vector3.one * size;
 
