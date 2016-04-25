@@ -43,7 +43,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 450710}
   m_Layer: 0
-  m_Name: LegSocketFinish
+  m_Name: RightSocketFinish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,24 +88,66 @@ GameObject:
   m_Component:
   - 4: {fileID: 410716}
   m_Layer: 0
-  m_Name: LegSocketStart
+  m_Name: RightSocketStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &410716
+--- !u!1 &187580
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 409472}
+  m_Layer: 0
+  m_Name: LeftLegSocketStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &191088
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 412958}
+  m_Layer: 0
+  m_Name: LeftLegSocketFinish
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &409472
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146186}
+  m_GameObject: {fileID: 187580}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 488198}
   m_RootOrder: 1
+--- !u!4 &410716
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146186}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
+  m_LocalPosition: {x: 0.5, y: 0, z: -0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 488198}
+  m_RootOrder: 4
 --- !u!4 &412594
 Transform:
   m_ObjectHideFlags: 1
@@ -118,18 +160,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 452396}
   m_RootOrder: 0
+--- !u!4 &412958
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191088}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 0, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 488198}
+  m_RootOrder: 2
 --- !u!4 &450710
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 124470}
-  m_LocalRotation: {x: 0.22880627, y: 0, z: 0, w: 0.973472}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0.5}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
+  m_LocalPosition: {x: -0.5, y: 0, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 488198}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!4 &452396
 Transform:
   m_ObjectHideFlags: 1
@@ -167,8 +221,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 458712}
-  - {fileID: 410716}
+  - {fileID: 409472}
+  - {fileID: 412958}
   - {fileID: 450710}
+  - {fileID: 410716}
   m_Father: {fileID: 452396}
   m_RootOrder: 1
 --- !u!23 &2300018
@@ -228,8 +284,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HeadSocket: {fileID: 128822}
-  LegSocketStart: {fileID: 146186}
-  LegSocketEnd: {fileID: 124470}
+  LeftLegSocketStart: {fileID: 187580}
+  LeftLegSocketEnd: {fileID: 191088}
+  RightLegSocketStart: {fileID: 146186}
+  RightLegSocketEnd: {fileID: 124470}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
