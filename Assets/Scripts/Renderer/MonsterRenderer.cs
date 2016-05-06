@@ -4,13 +4,15 @@ using System.Collections;
 public class MonsterRenderer : MonoBehaviour {
 
     GameObject p_Body;
-    GameObject p_Leg,p_Head;
+    GameObject p_Leg,p_Head,p_Arm;
 
     Transform currentBody;
 
     public float Size;
     public int NumberOfLegs;
     public int NumberOfArms;
+    public float Speed;
+    public float Power;
 
     public Color CreatureColor;
 
@@ -18,18 +20,23 @@ public class MonsterRenderer : MonoBehaviour {
 	void Start () {
         p_Body = Resources.Load("BodyParts/Body") as GameObject;
         p_Leg = Resources.Load("BodyParts/Leg") as GameObject;
+        p_Arm = Resources.Load("BodyParts/Arm") as GameObject;
         p_Head = Resources.Load("BodyParts/Head") as GameObject;
-        CreateMonster(Size,NumberOfLegs,NumberOfArms,CreatureColor);
+        CreateMonster(Size,NumberOfLegs,NumberOfArms,CreatureColor,Speed,Power);
 	}
 
     void InstantiatePart(GameObject part, Transform where)
     {
-        GameObject go = Instantiate(part, where.position, where.rotation) as GameObject;
+        Vector3 diff = Vector3.up * Random.RandomRange(0f, 1f) *0f;
+
+        GameObject go = Instantiate(part, where.position+diff, where.rotation) as GameObject;
         go.transform.parent = currentBody;
         Debug.Log(part.name + " instantiated at " + where.position.ToString());
+
+        go.transform.localScale *= 1f;
     }
 
-    void PlaceLegs(GameObject socketStart, GameObject socketEnd, int numberOfLegs) {
+    void PlaceLimbs(GameObject socketStart, GameObject socketEnd, int numberOfLegs, GameObject limb) {
 
         for (int i = 0; i < numberOfLegs; i++)
         {
@@ -39,13 +46,13 @@ public class MonsterRenderer : MonoBehaviour {
             Transform t = new GameObject().transform;
             t.position = Vector3.Lerp(socketStart.transform.position, socketEnd.transform.position, percent);
             t.rotation = socketEnd.transform.rotation;
-            InstantiatePart(p_Leg, t);
+            InstantiatePart(limb, t);
             Destroy(t.gameObject);
         }
         
     }
 
-    public void CreateMonster(float size,int nlegs,int narms,Color color) {
+    public void CreateMonster(float size,int nlegs,int narms,Color color,float speed,float power) {
         GameObject goBody = Instantiate(p_Body);
         currentBody = goBody.transform;
 
@@ -82,8 +89,8 @@ public class MonsterRenderer : MonoBehaviour {
             left_legs = (nlegs - 1) / 2;
         }
 
-        PlaceLegs(bsm.LeftLegSocketStart, bsm.LeftLegSocketEnd, left_legs);
-        PlaceLegs(bsm.RightLegSocketStart, bsm.RightLegSocketEnd, right_legs);
+        PlaceLimbs(bsm.LeftLegSocketStart, bsm.LeftLegSocketEnd, left_legs,p_Leg);
+        PlaceLimbs(bsm.RightLegSocketStart, bsm.RightLegSocketEnd, right_legs, p_Leg);
 
         /// arms
 
@@ -99,8 +106,8 @@ public class MonsterRenderer : MonoBehaviour {
             left_arms = (narms - 1) / 2;
         }
 
-        PlaceLegs(bsm.RightArmSocketEnd, bsm.RightArmSocketStart, right_arms);
-        PlaceLegs(bsm.LeftArmSocketEnd, bsm.LeftArmSocketStart, left_arms);
+        PlaceLimbs(bsm.RightArmSocketEnd, bsm.RightArmSocketStart, right_arms,p_Arm);
+        PlaceLimbs(bsm.LeftArmSocketEnd, bsm.LeftArmSocketStart, left_arms,p_Arm);
 
        
         //handle size
@@ -108,6 +115,21 @@ public class MonsterRenderer : MonoBehaviour {
 
         //handle color
         HandleColors(color);
+
+        //handle position
+
+        currentBody.position = new Vector3(0f, 20f, 0f);
+
+        Rigidbody rb = goBody.AddComponent<Rigidbody>();
+        rb.freezeRotation = true;
+
+        //apply animation to legs and power
+        LegAnimator[] legs = GameObject.FindObjectsOfType<LegAnimator>();
+        for (int i = 0; i < legs.Length; i++)
+        {
+            legs[i].speed = Speed;
+            legs[i].transform.localScale *= power;
+        }
         
 
     }
