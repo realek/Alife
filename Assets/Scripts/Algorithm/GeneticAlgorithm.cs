@@ -35,9 +35,7 @@ namespace GA
 
             if (m_elite)
             {
-                Debug.Log(population.BestGenome.discarded);
                 nPop.InsertGenome(population.BestGenome);
-                Debug.Log("InsertedElite");
             }
 
 
@@ -52,11 +50,9 @@ namespace GA
  
             for (int i = iVal; i < population.PopulationSize; i=i+1)
             {
-                Debug.Log("max pop"+population.PopulationSize+"citerator"+(i+1));
                 Genome parent1 = SelectionByTournament(population);
                 Genome parent2 = SelectionByTournament(population);
                 Genome[] children = CrossOver(parent1, parent2);
-                Debug.Log(children[0].discarded + " " + children[1].discarded);
                 nPop.InsertGenome(children[0]);
                 nPop.InsertGenome(children[1]);
             }
@@ -184,7 +180,6 @@ namespace GA
         private static void Mutate(Genome geno)
         {
             System.Random rand = new System.Random();
-            Debug.Log(geno);
             for (int i = 0; i < geno.GenomeSize; i++)
             {
                 if (rand.NextDouble() <= m_mutationRate)
