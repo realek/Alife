@@ -8,21 +8,15 @@ public class MonsterRenderer : MonoBehaviour {
 
     Transform currentBody;
 
-    public float Size;
-    public int NumberOfLegs;
-    public int NumberOfArms;
-    public float Speed;
-    public float Power;
-
-    public Color CreatureColor;
+   
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         p_Body = Resources.Load("BodyParts/Body") as GameObject;
         p_Leg = Resources.Load("BodyParts/Leg") as GameObject;
         p_Arm = Resources.Load("BodyParts/Arm") as GameObject;
         p_Head = Resources.Load("BodyParts/Head") as GameObject;
-        CreateMonster(Size,NumberOfLegs,NumberOfArms,CreatureColor,Speed,Power);
+        //CreateMonster(Size,NumberOfLegs,NumberOfArms,CreatureColor,Speed,Power);
 	}
 
     void InstantiatePart(GameObject part, Transform where)
@@ -127,7 +121,7 @@ public class MonsterRenderer : MonoBehaviour {
         LegAnimator[] legs = GameObject.FindObjectsOfType<LegAnimator>();
         for (int i = 0; i < legs.Length; i++)
         {
-            legs[i].speed = Speed;
+            legs[i].speed = speed;
             legs[i].transform.localScale *= power;
         }
         
