@@ -7,7 +7,7 @@ namespace GA
     {
        private static float m_crossOverRate = 0.7f;
        private static float m_mutationRate = 0.255f;
-       private static int m_tournamentSize = 10;
+       private static int m_tournamentSize = 4;
        private static bool m_elite = true;
        private static bool m_evolving = false;
        private static int m_generation = 0;
@@ -16,27 +16,29 @@ namespace GA
         /// Evolves population
         /// </summary>
         /// <param name="population"> population to be evolved (use ref keyword)</param>
-       public static void EvolvePopulation(ref Population population)
+        public static void EvolvePopulation(ref Population population)
         {
+
             if (m_evolving)
             {
                 return;
             }
-
             if (population == null || population.GetGenome(0) == null)
             {
-                Debug.LogError("POPULATION IS NULL, WTF ARE YOU DOING?");
+               // Debug.LogError("POPULATION IS NULL, WTF ARE YOU DOING?");
                 return;
             }
 
             m_evolving = true;
-
+            Debug.Log(population.PopulationSize);
             Population nPop = new Population(population.PopulationSize, population.GenomeSize());
 
 
             if (m_elite)
             {
+                Debug.Log(population.BestGenome.discarded);
                 nPop.InsertGenome(0, population.BestGenome);
+                Debug.Log("InsertedElite");
             }
 
 
@@ -49,14 +51,14 @@ namespace GA
 
             ///Breeding process
  
-            for (int i = iVal; i < population.PopulationSize; i=i+2)
+            for (int i = iVal; i < population.PopulationSize/2; i++)
             {
+                Debug.Log(i);
                 Genome parent1 = SelectionByTournament(population);
                 Genome parent2 = SelectionByTournament(population);
                 Genome[] children = CrossOver(parent1, parent2);
                 nPop.InsertGenome(i, children[0]);
-                if(i+1<population.PopulationSize)
-                    nPop.InsertGenome(i + 1, children[1]);
+                nPop.InsertGenome(i + 1, children[1]);
             }
 
             //mutate after breeding
@@ -64,10 +66,11 @@ namespace GA
             {
                 Mutate(nPop.GetGenome(i));
             }
-
+            Debug.Log("Evolution Complete");
             population = nPop;
             m_generation++;
             m_evolving = false;
+
         }
 
         /// <summary>
@@ -101,12 +104,12 @@ namespace GA
 
             for (int i = 0; i < m_tournamentSize; i++)
             {
-                int rgeno = random.Next(0, population.PopulationSize);
+                int rgeno = UnityEngine.Random.Range(0, population.PopulationSize);
                 tournamentCanditates.InsertGenome(i, population.GetGenome(rgeno));
             }
 
             tournamentCanditates.EvaluatePopulation();
-
+            Debug.Log(tournamentCanditates.BestGenome);
             geno = tournamentCanditates.BestGenome;
 
             return geno;

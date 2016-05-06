@@ -54,7 +54,7 @@ namespace GA
 
                 for (int j = 0; j < m_geneValue; j++)
                 {
-                    geneValue[j] = geneData[i + m_geneIdentifier + j];
+                    geneValue[j] = geneData[i + (geneID.Length) + j];
                 }
 
 
@@ -73,9 +73,9 @@ namespace GA
                 else if (geneID.SequenceEqual(GeneData.colorGeneID) && !hasColorGene)
                 {
                     hasColorGene = true;
-                    colorVals[0] = geneValue[geneValue.Length] + geneValue[geneValue.Length-1] - geneValue[0] + geneValue[4] - geneValue[2];
-                    colorVals[1] = geneValue[1] + geneValue[3] - geneValue[geneValue.Length] + geneValue[2] - geneValue[geneValue.Length-1];
-                    colorVals[2] = geneValue[4] + geneValue[2] - geneValue[geneValue.Length] + geneValue[1] - geneValue[3];
+                    colorVals[0] = geneValue[geneValue.Length-1] + geneValue[0];
+                    colorVals[1] = geneValue[geneValue.Length/2] + geneValue[geneValue.Length/3];
+                    colorVals[2] = geneValue[1] + geneValue[geneValue.Length-2];
                     Vector3 colorVec = new Vector3(colorVals[0], colorVals[1], colorVals[2]);
                     colorVec.Normalize();
                     color.r = colorVec.x;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GA
 {
@@ -33,18 +34,49 @@ namespace GA
 
         public void EvaluatePopulation()
         {
-            m_BestGenome = m_Genomes[0];
-            m_BestGenome.Fitness = Fitness.Calculate(m_BestGenome.Genes);// get first chromosome
-            for (int i = 1; i < m_Genomes.Length; i++)
+
+            float bestFitness = 0;
+            //List<int> badGenerated = new List<int>(0);
+
+            // m_BestGenome = m_Genomes[0];
+            // GenomeEncoder.Encode(ref m_BestGenome);
+            //  Fitness.FoodFitness(ref m_BestGenome,FitnessFunction.FoodGathering);// get first chromosome
+            List<Genome> properGenomes = new List<Genome>();
+            for (int i = 0; i < m_Genomes.Length; i++)
             {
-                m_Genomes[i].Fitness = Fitness.Calculate(m_Genomes[i].Genes);
-                if (m_BestGenome.Fitness < m_Genomes[i].Fitness)
+                GenomeEncoder.Encode(ref m_Genomes[i]);
+                if (!m_Genomes[i].discarded)
                 {
-                    m_BestGenome = m_Genomes[i]; // record best chromosome
+                    properGenomes.Add(m_Genomes[i]);
                 }
             }
 
-        }
+            m_Genomes = properGenomes.ToArray();
+            for (int i = 0; i < m_Genomes.Length; i++)
+            {
+                Fitness.FoodFitness(ref m_Genomes[i], FitnessFunction.FoodGathering);
+                UnityEngine.Debug.Log(m_Genomes[i].Fitness);
+                if (m_BestGenome != null)
+                {
+                    if (m_BestGenome.Fitness < m_Genomes[i].Fitness)
+                    {
+                        m_BestGenome = m_Genomes[i];
+                    }
+
+                }
+                else
+                {
+                    if (i == 0)
+                    {
+                        bestFitness = m_Genomes[i].Fitness;
+                    }
+                    else if (bestFitness < m_Genomes[i].Fitness)
+                    {
+                        m_BestGenome = m_Genomes[i]; // record best chromosome
+                    }
+                }
+            }
+           }
 
         public void InsertGenome(int index, Genome chromo)
         {

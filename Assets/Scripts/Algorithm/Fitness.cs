@@ -2,7 +2,11 @@
 
 namespace GA
 {
-
+    enum FitnessFunction
+    {
+        FoodGathering,
+        Meteor
+    }
     static class Fitness
     {
         private static byte[] _desiredGenes;
@@ -16,17 +20,21 @@ namespace GA
             }
         }
 
-        public static int Calculate(byte[] _genes)
+        public static void FoodFitness(ref Genome Geno,FitnessFunction funcType)
         {
-            int _calculatedFitness = 0;
-            for(int i = 0; i < _genes.Length; i++)
+            switch (funcType)
             {
-                if (_genes[i] == _desiredGenes[i])
-                {
-                    _calculatedFitness++;
-                }
+                case FitnessFunction.FoodGathering:
+                    {
+                        Geno.Fitness = Geno.encoded.Speed;
+                        break;
+                    }
+                case FitnessFunction.Meteor:
+                    {
+
+                        break;
+                    }
             }
-            return _calculatedFitness;
         }
 
         public static int MaxFitness()

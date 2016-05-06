@@ -77,7 +77,23 @@ namespace GA
         {
             get
             {
-                return m_weight / (m_nrLegs * m_power);
+                if (m_nrLegs == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return m_weight / (m_nrLegs * m_power);
+                }
+
+            }
+        }
+
+        public float Power
+        {
+            get
+            {
+                return m_power;
             }
         }
 

@@ -6,7 +6,7 @@ namespace GA
     class Genome
     {
         private int m_GenomeSize;
-        private int m_GenomeFitness;
+        private float m_GenomeFitness;
         private byte[] m_Genes;
         private Random m_Randomizer;
         public EncodedGenome encoded;
@@ -63,7 +63,7 @@ namespace GA
         }
 
 
-        public int Fitness
+        public float Fitness
         {
             set
             {
