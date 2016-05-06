@@ -9,10 +9,13 @@ namespace GA
         private int m_GenomeFitness;
         private byte[] m_Genes;
         private Random m_Randomizer;
-        private EncodedGenome m_encoded;
+        public EncodedGenome encoded;
+
+        public bool discarded;
 
         public Genome(int seed, int size)
         {
+            discarded = false;
             m_GenomeSize = size;
             m_Genes = new byte[m_GenomeSize];
             m_Randomizer = new Random(seed);
@@ -58,6 +61,7 @@ namespace GA
         {
             m_Genes[i] = b;
         }
+
 
         public int Fitness
         {

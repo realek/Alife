@@ -12,9 +12,9 @@ namespace GA
         private float m_power = 0;
         private float m_weight = 0;
         private int m_lifeSpan = 0;
-        private float[] m_color;
+        private Color m_color;
 
-        public EncodedGenome(float[] color,int nrUpperLimbs,int nrLowerLimbs, float size, float power,float weight,int lifespan)
+        public EncodedGenome(Color color,int nrUpperLimbs,int nrLowerLimbs, float size, float power,float weight,int lifespan)
         {
             m_nrArms = nrUpperLimbs;
             m_nrLegs = nrLowerLimbs;
@@ -81,7 +81,7 @@ namespace GA
             }
         }
 
-        public float[] Color
+        public Color Color
         {
             get
             {
