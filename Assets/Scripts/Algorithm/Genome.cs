@@ -9,6 +9,7 @@ namespace GA
         private int m_GenomeFitness;
         private byte[] m_Genes;
         private Random m_Randomizer;
+        private EncodedGenome m_encoded;
 
         public Genome(int seed, int size)
         {
@@ -69,31 +70,6 @@ namespace GA
                 return m_GenomeFitness;
             }
         }
-
-        public string Phenotype()
-        {
-            string pheno="";
-            for (int i = 0; i < m_Genes.Length; i++)
-            {
-                int gene = Convert.ToInt32(m_Genes[i]);
-
-                switch (gene)
-                {
-                    case 0:
-                        {
-                            pheno += "Y";
-                            break;
-                        }
-                    case 1:
-                        {
-                            pheno += "X";
-                            break;
-                        }
-                }
-            }
-            return pheno;
-        }
-
 
     }
 }
