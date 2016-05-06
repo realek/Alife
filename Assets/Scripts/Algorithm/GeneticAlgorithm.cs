@@ -16,28 +16,27 @@ namespace GA
         /// Evolves population
         /// </summary>
         /// <param name="population"> population to be evolved (use ref keyword)</param>
-        public static void EvolvePopulation(ref Population population)
+        public static Population EvolvePopulation(Population population)
         {
 
             if (m_evolving)
             {
-                return;
+                return null;
             }
             if (population == null || population.GetGenome(0) == null)
             {
                // Debug.LogError("POPULATION IS NULL, WTF ARE YOU DOING?");
-                return;
+                return null;
             }
 
             m_evolving = true;
-            Debug.Log(population.PopulationSize);
             Population nPop = new Population(population.PopulationSize, population.GenomeSize());
 
 
             if (m_elite)
             {
                 Debug.Log(population.BestGenome.discarded);
-                nPop.InsertGenome(0, population.BestGenome);
+                nPop.InsertGenome(population.BestGenome);
                 Debug.Log("InsertedElite");
             }
 
@@ -51,14 +50,15 @@ namespace GA
 
             ///Breeding process
  
-            for (int i = iVal; i < population.PopulationSize/2; i++)
+            for (int i = iVal; i < population.PopulationSize; i=i+1)
             {
-                Debug.Log(i);
+                Debug.Log("max pop"+population.PopulationSize+"citerator"+(i+1));
                 Genome parent1 = SelectionByTournament(population);
                 Genome parent2 = SelectionByTournament(population);
                 Genome[] children = CrossOver(parent1, parent2);
-                nPop.InsertGenome(i, children[0]);
-                nPop.InsertGenome(i + 1, children[1]);
+                Debug.Log(children[0].discarded + " " + children[1].discarded);
+                nPop.InsertGenome(children[0]);
+                nPop.InsertGenome(children[1]);
             }
 
             //mutate after breeding
@@ -67,10 +67,10 @@ namespace GA
                 Mutate(nPop.GetGenome(i));
             }
             Debug.Log("Evolution Complete");
-            population = nPop;
+
             m_generation++;
             m_evolving = false;
-
+            return nPop;
         }
 
         /// <summary>
@@ -105,11 +105,10 @@ namespace GA
             for (int i = 0; i < m_tournamentSize; i++)
             {
                 int rgeno = UnityEngine.Random.Range(0, population.PopulationSize);
-                tournamentCanditates.InsertGenome(i, population.GetGenome(rgeno));
+                tournamentCanditates.InsertGenome(population.GetGenome(rgeno));
             }
 
             tournamentCanditates.EvaluatePopulation();
-            Debug.Log(tournamentCanditates.BestGenome);
             geno = tournamentCanditates.BestGenome;
 
             return geno;
@@ -185,7 +184,7 @@ namespace GA
         private static void Mutate(Genome geno)
         {
             System.Random rand = new System.Random();
-
+            Debug.Log(geno);
             for (int i = 0; i < geno.GenomeSize; i++)
             {
                 if (rand.NextDouble() <= m_mutationRate)
@@ -193,7 +192,7 @@ namespace GA
                     ///must be replaced by gene class
                     byte gene = (byte)rand.Next(0, 2);
                     geno.MutateGene(i, gene);
-                    ///
+                   
                 }
             }
         }

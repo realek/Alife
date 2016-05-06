@@ -10,7 +10,7 @@ public class WorldRunner : MonoBehaviour {
 
     //BASIC DATA
     System.Random rand;
-    int genomeSize = 63; // number of genes in genome;
+    int genomeSize = 90; // number of genes in genome;
     int populationSize = 100;
     WaitForEndOfFrame m_w8;
     //
@@ -45,7 +45,7 @@ public class WorldRunner : MonoBehaviour {
         {
             population.EvaluatePopulation();
           //  Debug.Log("Current gen: " + GeneticAlgorithm.Generation + " most fit is: " + population.BestGenome.Fitness);
-            GeneticAlgorithm.EvolvePopulation(ref population);
+            population = GeneticAlgorithm.EvolvePopulation(population);
             yield return m_w8;
 
 

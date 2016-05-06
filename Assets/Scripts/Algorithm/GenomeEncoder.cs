@@ -22,7 +22,7 @@ namespace GA
         private const int m_geneIdentifier = 3;
         private const int m_geneValue = 6;
 
-        public static void Encode(ref Genome geno)
+        public static EncodedGenome Encode(Genome geno)
         {
             byte[] geneData = geno.Genes;                        
             EncodedGenome eGeno = null;
@@ -127,11 +127,11 @@ namespace GA
             if (hasSizeGene && hasWeightGene && hasLifespanGene && hasPowerGene)
             {
                 eGeno = new EncodedGenome(color, nrArms, nrLegs, size, power, weight, lifespan);
-                geno.encoded = eGeno; 
+                return eGeno;
             }
             else
             {
-                geno.discarded = true;
+                return null;
             }
 
             

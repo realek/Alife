@@ -20,21 +20,20 @@ namespace GA
             }
         }
 
-        public static void FoodFitness(ref Genome Geno,FitnessFunction funcType)
+        public static float FoodFitness(Genome Geno,FitnessFunction funcType)
         {
+            float fitness=0;
+
             switch (funcType)
             {
                 case FitnessFunction.FoodGathering:
                     {
-                        Geno.Fitness = Geno.encoded.Speed;
+                        fitness =  Geno.encoded.Speed;
                         break;
-                    }
-                case FitnessFunction.Meteor:
-                    {
-
-                        break;
+            
                     }
             }
+            return fitness;
         }
 
         public static int MaxFitness()

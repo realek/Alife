@@ -6,24 +6,23 @@ namespace GA
     class Population
     {
         private Random m_Randomizer;
-        private Genome[] m_Genomes;
+        private List<Genome> m_Genomes;
         private Genome m_BestGenome;
         private int m_GenomeSize;
-
+        private int m_Popsize;
         public Population(int popSize, int genoSize)
         {
             m_GenomeSize = genoSize;
-            m_Genomes = new Genome[popSize];
+            m_Popsize = popSize;
+            m_Genomes = new List<Genome>();
         }
 
 
         public void GenerateInitalPopulation()
         {
-            m_Randomizer = new Random();
-
-            for (int i = 0; i < m_Genomes.Length; i++)
+            for (int i = 0; i < m_Popsize; i++)
             {
-                m_Genomes[i] = new Genome(m_Randomizer.Next(), m_GenomeSize); 
+                m_Genomes.Add(new Genome(UnityEngine.Random.Range(0, 100), m_GenomeSize)); 
             }
         }
 
@@ -35,59 +34,51 @@ namespace GA
         public void EvaluatePopulation()
         {
 
-            float bestFitness = 0;
             //List<int> badGenerated = new List<int>(0);
 
             // m_BestGenome = m_Genomes[0];
             // GenomeEncoder.Encode(ref m_BestGenome);
             //  Fitness.FoodFitness(ref m_BestGenome,FitnessFunction.FoodGathering);// get first chromosome
             List<Genome> properGenomes = new List<Genome>();
-            for (int i = 0; i < m_Genomes.Length; i++)
+            for (int i = 0; i < m_Genomes.Count; i++)
             {
-                GenomeEncoder.Encode(ref m_Genomes[i]);
+                m_Genomes[i].encoded = GenomeEncoder.Encode(m_Genomes[i]);
+                if (m_Genomes[i].encoded == null)
+                {
+                    m_Genomes[i].discarded = true;
+                }
+
                 if (!m_Genomes[i].discarded)
                 {
                     properGenomes.Add(m_Genomes[i]);
                 }
             }
 
-            m_Genomes = properGenomes.ToArray();
-            for (int i = 0; i < m_Genomes.Length; i++)
+            m_Genomes = properGenomes;
+            for (int i = 0; i < m_Genomes.Count; i++)
             {
-                Fitness.FoodFitness(ref m_Genomes[i], FitnessFunction.FoodGathering);
-                UnityEngine.Debug.Log(m_Genomes[i].Fitness);
-                if (m_BestGenome != null)
+                m_Genomes[i].Fitness = Fitness.FoodFitness(m_Genomes[i], FitnessFunction.FoodGathering);
+                if (i == 0)
                 {
-                    if (m_BestGenome.Fitness < m_Genomes[i].Fitness)
-                    {
-                        m_BestGenome = m_Genomes[i];
-                    }
-
+                    m_BestGenome = m_Genomes[i];
                 }
-                else
+                else if(m_BestGenome.Fitness < m_Genomes[i].Fitness)
                 {
-                    if (i == 0)
-                    {
-                        bestFitness = m_Genomes[i].Fitness;
-                    }
-                    else if (bestFitness < m_Genomes[i].Fitness)
-                    {
-                        m_BestGenome = m_Genomes[i]; // record best chromosome
-                    }
+                    m_BestGenome = m_Genomes[i];
                 }
             }
            }
 
-        public void InsertGenome(int index, Genome chromo)
+        public void InsertGenome(Genome chromo)
         {
-            m_Genomes[index] = chromo;
+            m_Genomes.Add(chromo);
         }
 
         public int PopulationSize
         {
             get
             {
-                return m_Genomes.Length;
+                return m_Genomes.Count;
             }
         }
 
