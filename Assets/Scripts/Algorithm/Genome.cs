@@ -16,7 +16,7 @@ namespace GA
         private const int m_sizeIDIDX = 0;
         private const int m_weightIDIDX = 9;
         private const int m_powerIDIDX = 18;
-
+        private const int m_lifeSpanIDIDX = 27;
         public bool discarded;
 
         public Genome(int seed, int size)
@@ -49,6 +49,7 @@ namespace GA
                 m_Genes[i] = GeneData.sizeGeneID[i];
                 m_Genes[i + m_weightIDIDX] = GeneData.weightGeneID[i];
                 m_Genes[i + m_powerIDIDX] = GeneData.powerGeneID[i];
+                m_Genes[i + m_lifeSpanIDIDX] = GeneData.lifeSpanGeneID[i];
             }
 
             for (int i = 0; i < m_ValSize; i++)
@@ -56,13 +57,18 @@ namespace GA
                 m_Genes[i+m_IDSize] = byte.Parse(Random.Range(0, 2).ToString());
                 m_Genes[i+m_weightIDIDX+m_IDSize] = byte.Parse(Random.Range(0, 2).ToString());
                 m_Genes[i+m_powerIDIDX+m_IDSize] = byte.Parse(Random.Range(0, 2).ToString());
-
+                m_Genes[i+m_lifeSpanIDIDX+m_IDSize] = byte.Parse(Random.Range(0, 2).ToString());
             }
 
-            for (int i = m_powerIDIDX+m_IDSize+m_ValSize; i < m_Genes.Length; i++)
+
+
+            for (int i = m_lifeSpanIDIDX+m_IDSize+m_ValSize; i < m_Genes.Length; i++)
             {
                 m_Genes[i] = byte.Parse(Random.Range(0,2).ToString());
             }
+
+            
+
             m_GenomeFitness = 0;
             Debug.Log(m_Genes.Length);
         }

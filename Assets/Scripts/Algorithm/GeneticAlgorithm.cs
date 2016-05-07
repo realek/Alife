@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GA
 {
@@ -96,11 +95,10 @@ namespace GA
 
             Genome geno = null;
             Population tournamentCanditates = new Population(m_tournamentSize,population.GenomeSize());
-            System.Random random = new System.Random();
 
             for (int i = 0; i < m_tournamentSize; i++)
             {
-                int rgeno = UnityEngine.Random.Range(0, population.PopulationSize);
+                int rgeno = Random.Range(0, population.PopulationSize);
                 tournamentCanditates.InsertGenome(population.GetGenome(rgeno));
             }
 
@@ -126,9 +124,7 @@ namespace GA
             Genome[] children = new Genome[2]; // 2 parents two children simple crossover
 
             int genomeSize = genoA.GenomeSize;
-            System.Random random = new System.Random();
-
-            if (random.NextDouble() > m_crossOverRate)
+            if(Random.value > m_crossOverRate)
             {
                 children[0] = genoA;
                 children[1] = genoB;
@@ -137,32 +133,11 @@ namespace GA
             }
             else
             {
-                int randCut1 = genoA.GenomeSize;
-                while (randCut1 > genomeSize - 1) //first cut
-                {
-                    randCut1 = random.Next(0, genomeSize + 1);
-                }
-                int randcut2 = random.Next(randCut1 + 1, genomeSize + 1); // second cut
-
-                ///Genes Override after class Implementation
                 byte[] firstChildgenes = new byte[genoA.GenomeSize];
                 byte[] secondChildgenes = new byte[genoA.GenomeSize];
-                /// 
+                byte[] mandatoryGeneValues = new byte[GeneData.geneValueLength * GeneData.NrMandatoryGenes];
 
-                
-                for (int i = 0; i < genoA.GenomeSize; i++)
-                {
-                    if (i >= randCut1 || i <= randcut2)
-                    {
-                        firstChildgenes[i] = genoB.Genes[i];
-                        secondChildgenes[i] = genoA.Genes[i];
-                    }
-                    else
-                    {
-                        firstChildgenes[i] = genoA.Genes[i];
-                        secondChildgenes[i] = genoB.Genes[i];
-                    }
-                }
+
 
                 children[0] = new Genome(firstChildgenes);
                 children[1] = new Genome(secondChildgenes); 

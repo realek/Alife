@@ -27,18 +27,18 @@ namespace GA
             bool hasColorGene = false;
             bool hasLifespanGene = false;
 
-            for (int i = 0; i < geneData.Length; i = i + GeneData.m_geneLength)
+            for (int i = 0; i < geneData.Length; i = i + GeneData.geneLength)
             {
-                byte[] geneID = new byte[GeneData.m_geneIdentifier];
+                byte[] geneID = new byte[GeneData.geneIdentifierLength];
                 for (int j = 0; j < geneID.Length; j++)
                 {
 
                     geneID[j] = geneData[i + j];
                 }
 
-                byte[] geneValue = new byte[GeneData.m_geneValue];
+                byte[] geneValue = new byte[GeneData.geneValueLength];
 
-                for (int j = 0; j < GeneData.m_geneValue; j++)
+                for (int j = 0; j < GeneData.geneValueLength; j++)
                 {
                     geneValue[j] = geneData[i + (geneID.Length) + j];
                 }
@@ -50,7 +50,7 @@ namespace GA
                 {
 
                     hasArmsGene = true;
-                    for (int j = 0; j < GeneData.m_geneValue; j++)
+                    for (int j = 0; j < GeneData.geneValueLength; j++)
                     {
                         nrArms += geneValue[j];
                     }
@@ -71,7 +71,7 @@ namespace GA
                 else if (geneID.SequenceEqual(GeneData.legsGeneID) && !hasLegsGene)
                 {
                     hasLegsGene = true;
-                    for (int j = 0; j < GeneData.m_geneValue; j++)
+                    for (int j = 0; j < GeneData.geneValueLength; j++)
                     {
                         nrLegs += geneValue[j];
                     }
@@ -79,7 +79,7 @@ namespace GA
                 else if (geneID.SequenceEqual(GeneData.lifeSpanGeneID) && !hasLifespanGene)
                 {
                     hasLifespanGene = true;
-                    for (int j = 0; j < GeneData.m_geneValue; j++)
+                    for (int j = 0; j < GeneData.geneValueLength; j++)
                     {
                         lifespan += geneValue[j];
                     }
@@ -87,7 +87,7 @@ namespace GA
                 else if (geneID.SequenceEqual(GeneData.powerGeneID) && !hasPowerGene)
                 {
                     hasPowerGene = true;
-                    for (int j = 0; j < GeneData.m_geneValue; j++)
+                    for (int j = 0; j < GeneData.geneValueLength; j++)
                     {
                         power += geneValue[j];
                     }
@@ -95,7 +95,7 @@ namespace GA
                 else if (geneID.SequenceEqual(GeneData.sizeGeneID) && !hasSizeGene)
                 {
                     hasSizeGene = true;
-                    for (int j = 0; j < GeneData.m_geneValue; j++)
+                    for (int j = 0; j < GeneData.geneValueLength; j++)
                     {
                         size += geneValue[j];
                     }
@@ -103,11 +103,17 @@ namespace GA
                 else if (geneID.SequenceEqual(GeneData.weightGeneID) && !hasWeightGene)
                 {
                     hasWeightGene = true;
-                    for (int j = 0; j < GeneData.m_geneValue; j++)
+                    for (int j = 0; j < GeneData.geneValueLength; j++)
                     {
                         weight += geneValue[j];
                     }
                 }
+            }
+
+
+            if (!hasColorGene)
+            {
+                color = Color.white; // Colorless creatures are albinos
             }
 
             if (hasSizeGene && hasWeightGene && hasLifespanGene && hasPowerGene)
