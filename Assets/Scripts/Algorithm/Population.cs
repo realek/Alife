@@ -36,12 +36,6 @@ namespace GA
 
         public void EvaluatePopulation()
         {
-
-            //List<int> badGenerated = new List<int>(0);
-
-            // m_BestGenome = m_Genomes[0];
-            // GenomeEncoder.Encode(ref m_BestGenome);
-            //  Fitness.FoodFitness(ref m_BestGenome,FitnessFunction.FoodGathering);// get first chromosome
             List<Genome> properGenomes = new List<Genome>();
             for (int i = 0; i < m_Genomes.Count; i++)
             {

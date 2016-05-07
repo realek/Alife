@@ -11,9 +11,6 @@ namespace GA
         [SerializeField]
         private byte[] m_Genes;
         public EncodedGenome encoded;
-        private readonly static byte[] sizeGeneID = new byte[3] { 0, 0, 1 };
-        private readonly static byte[] weightGeneID = new byte[3] { 0, 1, 0 };
-        private readonly static byte[] powerGeneID = new byte[3] { 0, 1, 1 };
         private const int m_ValSize = 6;
         private const int m_IDSize = 3;
         private const int m_sizeIDIDX = 0;
@@ -49,9 +46,9 @@ namespace GA
         {
             for (int i = 0; i < m_IDSize; i++)
             {
-                m_Genes[i] = sizeGeneID[i];
-                m_Genes[i + m_weightIDIDX] = weightGeneID[i];
-                m_Genes[i + m_powerIDIDX] = powerGeneID[i];
+                m_Genes[i] = GeneData.sizeGeneID[i];
+                m_Genes[i + m_weightIDIDX] = GeneData.weightGeneID[i];
+                m_Genes[i + m_powerIDIDX] = GeneData.powerGeneID[i];
             }
 
             for (int i = 0; i < m_ValSize; i++)
@@ -67,6 +64,7 @@ namespace GA
                 m_Genes[i] = byte.Parse(Random.Range(0,2).ToString());
             }
             m_GenomeFitness = 0;
+            Debug.Log(m_Genes.Length);
         }
 
         public byte[] Genes

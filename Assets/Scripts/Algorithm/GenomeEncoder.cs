@@ -4,23 +4,9 @@ using UnityEngine;
 
 namespace GA
 {
-
-    static class GeneData
-    {
-        public readonly static byte[] colorGeneID = new byte[3] { 0, 0, 0 };
-        public readonly static byte[] sizeGeneID = new byte[3]{ 0, 0, 1 };
-        public readonly static byte[] weightGeneID = new byte[3] { 0, 1, 0 };
-        public readonly static byte[] powerGeneID = new byte[3] { 0, 1, 1 };
-        public readonly static byte[] lifeSpanGeneID = new byte[3] { 1, 0, 0 };
-        public readonly static byte[] armsGeneID = new byte[3] { 1, 1, 0 };
-        public readonly static byte[] legsGeneID = new byte[3] { 1, 1, 1 };
-    }
     
     static class GenomeEncoder
     {
-        private const int m_geneLength = 9;
-        private const int m_geneIdentifier = 3;
-        private const int m_geneValue = 6;
 
         public static EncodedGenome Encode(Genome geno)
         {
@@ -41,18 +27,18 @@ namespace GA
             bool hasColorGene = false;
             bool hasLifespanGene = false;
 
-            for (int i = 0; i < geneData.Length; i = i + m_geneLength)
+            for (int i = 0; i < geneData.Length; i = i + GeneData.m_geneLength)
             {
-                byte[] geneID = new byte[m_geneIdentifier];
+                byte[] geneID = new byte[GeneData.m_geneIdentifier];
                 for (int j = 0; j < geneID.Length; j++)
                 {
 
                     geneID[j] = geneData[i + j];
                 }
 
-                byte[] geneValue = new byte[m_geneValue];
+                byte[] geneValue = new byte[GeneData.m_geneValue];
 
-                for (int j = 0; j < m_geneValue; j++)
+                for (int j = 0; j < GeneData.m_geneValue; j++)
                 {
                     geneValue[j] = geneData[i + (geneID.Length) + j];
                 }
@@ -64,7 +50,7 @@ namespace GA
                 {
 
                     hasArmsGene = true;
-                    for (int j = 0; j < m_geneValue; j++)
+                    for (int j = 0; j < GeneData.m_geneValue; j++)
                     {
                         nrArms += geneValue[j];
                     }
@@ -85,7 +71,7 @@ namespace GA
                 else if (geneID.SequenceEqual(GeneData.legsGeneID) && !hasLegsGene)
                 {
                     hasLegsGene = true;
-                    for (int j = 0; j < m_geneValue; j++)
+                    for (int j = 0; j < GeneData.m_geneValue; j++)
                     {
                         nrLegs += geneValue[j];
                     }
@@ -93,7 +79,7 @@ namespace GA
                 else if (geneID.SequenceEqual(GeneData.lifeSpanGeneID) && !hasLifespanGene)
                 {
                     hasLifespanGene = true;
-                    for (int j = 0; j < m_geneValue; j++)
+                    for (int j = 0; j < GeneData.m_geneValue; j++)
                     {
                         lifespan += geneValue[j];
                     }
@@ -101,7 +87,7 @@ namespace GA
                 else if (geneID.SequenceEqual(GeneData.powerGeneID) && !hasPowerGene)
                 {
                     hasPowerGene = true;
-                    for (int j = 0; j < m_geneValue; j++)
+                    for (int j = 0; j < GeneData.m_geneValue; j++)
                     {
                         power += geneValue[j];
                     }
@@ -109,7 +95,7 @@ namespace GA
                 else if (geneID.SequenceEqual(GeneData.sizeGeneID) && !hasSizeGene)
                 {
                     hasSizeGene = true;
-                    for (int j = 0; j < m_geneValue; j++)
+                    for (int j = 0; j < GeneData.m_geneValue; j++)
                     {
                         size += geneValue[j];
                     }
@@ -117,7 +103,7 @@ namespace GA
                 else if (geneID.SequenceEqual(GeneData.weightGeneID) && !hasWeightGene)
                 {
                     hasWeightGene = true;
-                    for (int j = 0; j < m_geneValue; j++)
+                    for (int j = 0; j < GeneData.m_geneValue; j++)
                     {
                         weight += geneValue[j];
                     }
