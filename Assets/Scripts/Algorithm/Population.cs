@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace GA
 {
+    [Serializable]
     class Population
     {
-        private Random m_Randomizer;
+        private System.Random m_Randomizer;
+        [SerializeField]
         private List<Genome> m_Genomes;
         private Genome m_BestGenome;
         private int m_GenomeSize;

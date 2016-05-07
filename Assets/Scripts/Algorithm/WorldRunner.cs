@@ -15,6 +15,7 @@ public class WorldRunner : MonoBehaviour {
     WaitForEndOfFrame m_w8;
     //
     bool m_running;
+    [SerializeField]
     Population population;
 	// Use this for initialization
 	void Start () {
