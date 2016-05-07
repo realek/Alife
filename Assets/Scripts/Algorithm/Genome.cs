@@ -8,7 +8,6 @@ namespace GA
     {
         private int m_GenomeSize;
         private float m_GenomeFitness;
-        [SerializeField]
         private byte[] m_Genes;
         public EncodedGenome encoded;
         private const int m_ValSize = 6;
@@ -70,7 +69,6 @@ namespace GA
             
 
             m_GenomeFitness = 0;
-            Debug.Log(m_Genes.Length);
         }
 
         public byte[] Genes

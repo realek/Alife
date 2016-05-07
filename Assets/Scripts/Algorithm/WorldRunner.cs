@@ -24,15 +24,6 @@ public class WorldRunner : MonoBehaviour {
         m_w8 = new WaitForEndOfFrame();
         rand = new System.Random();
         int[] currentGoal = new int[genomeSize];
-        //create Random goal 
-        for (int i = 0; i < currentGoal.Length; i++)
-        {
-            //0,1 cause bits
-            currentGoal[i] = rand.Next(2);
-        }
-
-        //load goal
-        Fitness.LoadGoal(currentGoal);
 
         population = new Population(populationSize, genomeSize);
         population.GenerateInitalPopulation();

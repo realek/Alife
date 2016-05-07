@@ -5,7 +5,7 @@ namespace GA
     static class GeneticAlgorithm
     {
        private static float m_crossOverRate = 0.7f;
-       private static float m_mutationRate = 0.255f;
+       private static float m_mutationRate = 0.2f;
        private static int m_tournamentSize = 4;
        private static bool m_elite = true;
        private static bool m_evolving = false;
@@ -47,21 +47,24 @@ namespace GA
 
             ///Breeding process
  
-            for (int i = iVal; i < population.PopulationSize; i=i+1)
+            for (int i = iVal; i < population.PopulationSize; i=i+2)
             {
                 Genome parent1 = SelectionByTournament(population);
                 Genome parent2 = SelectionByTournament(population);
                 Genome[] children = CrossOver(parent1, parent2);
-                nPop.InsertGenome(children[0]);
-                nPop.InsertGenome(children[1]);
+
+                for (int j = 0; j < children.Length; j++)
+                {
+                    nPop.InsertGenome(children[j]);
+                }
             }
 
             //mutate after breeding
             for (int i = iVal; i < nPop.PopulationSize; i++)
             {
-                Mutate(nPop.GetGenome(i));
+            //    Mutate(nPop.GetGenome(i));
             }
-            Debug.Log("Evolution Complete");
+      //      Debug.Log("Evolution Complete");
 
             m_generation++;
             m_evolving = false;
@@ -122,8 +125,6 @@ namespace GA
             }
 
             Genome[] children = new Genome[2]; // 2 parents two children simple crossover
-
-            int genomeSize = genoA.GenomeSize;
             if(Random.value > m_crossOverRate)
             {
                 children[0] = genoA;
@@ -133,14 +134,20 @@ namespace GA
             }
             else
             {
-                byte[] firstChildgenes = new byte[genoA.GenomeSize];
-                byte[] secondChildgenes = new byte[genoA.GenomeSize];
-                byte[] mandatoryGeneValues = new byte[GeneData.geneValueLength * GeneData.NrMandatoryGenes];
+             //   byte[] firstChildgenes = new byte[genoA.GenomeSize];
+              //  byte[] secondChildgenes = new byte[genoA.GenomeSize];
+
+//                byte[] genoAGeneData = genoA.Genes;
+  //              byte[] genoBGeneData = genoB.Genes;
+
+    //            byte[] mandatoryGeneValuesA = new byte[GeneData.NrMandatoryGenes * GeneData.geneLength];
+      //          byte[] mandatoryGeneValuesB = new byte[GeneData.NrMandatoryGenes * GeneData.geneLength];
 
 
-
-                children[0] = new Genome(firstChildgenes);
-                children[1] = new Genome(secondChildgenes); 
+                children[0] = genoA;
+                children[1] = genoB;
+                //  children[0] = new Genome(firstChildgenes);
+                // children[1] = new Genome(secondChildgenes); 
 
                 return children;
             }
@@ -154,13 +161,11 @@ namespace GA
         /// <param name="geno"></param>
         private static void Mutate(Genome geno)
         {
-            System.Random rand = new System.Random();
             for (int i = 0; i < geno.GenomeSize; i++)
             {
-                if (rand.NextDouble() <= m_mutationRate)
+                if (Random.value <= m_mutationRate)
                 {
-                    ///must be replaced by gene class
-                    byte gene = (byte)rand.Next(0, 2);
+                    byte gene = (byte)Random.Range(0, 2);
                     geno.MutateGene(i, gene);
                    
                 }

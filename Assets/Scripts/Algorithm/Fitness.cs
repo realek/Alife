@@ -16,7 +16,7 @@ namespace GA
             _desiredGenes = new byte[goal.Length];
             for(int i = 0; i < goal.Length; i++)
             {
-                _desiredGenes[i] = Byte.Parse(goal[i].ToString());
+                _desiredGenes[i] = byte.Parse(goal[i].ToString());
             }
         }
 
