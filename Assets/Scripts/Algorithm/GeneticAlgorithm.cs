@@ -49,14 +49,23 @@ namespace GA
  
             for (int i = iVal; i < population.PopulationSize; i=i+2)
             {
+                
                 Genome parent1 = SelectionByTournament(population);
                 Genome parent2 = SelectionByTournament(population);
-                Genome[] children = CrossOver(parent1, parent2);
-
-                for (int j = 0; j < children.Length; j++)
+                if (GenomeSimilarityCalculator.CanReproduce(parent1, parent2))
                 {
-                    nPop.InsertGenome(children[j]);
+                    Genome[] children = CrossOver(parent1, parent2);
+
+                    for (int j = 0; j < children.Length; j++)
+                    {
+                        nPop.InsertGenome(children[j]);
+                    }
                 }
+                else
+                {
+
+                }
+                
             }
 
             //mutate after breeding
@@ -123,7 +132,8 @@ namespace GA
         }
 
         /// <summary>
-        /// Cross over function, breeds children from parent genomes
+        /// Cross over function, breeds children from parent genomes, 
+        /// uses a uniform crossover encapsulating a two point crossover with a 50% chance of occurence
         /// </summary>
         /// <param name="genoA"></param>
         /// <param name="genoB"></param>
@@ -149,11 +159,7 @@ namespace GA
                 byte[] firstChildgenes = new byte[genoA.GenomeSize];
                 byte[] secondChildgenes = new byte[genoA.GenomeSize];
 
-                //parents genome data
-                byte[] genoAGeneData = genoA.Genes;
-                byte[] genoBGeneData = genoB.Genes;
-
-                for (int i = 0; i < genoAGeneData.Length; i = i + GeneData.geneLength)
+                for (int i = 0; i < genoA.Genes.Length; i = i + GeneData.geneLength)
                 {
                     //current gene id
                     byte[] geneAID = new byte[GeneData.geneIdentifierLength];
@@ -161,8 +167,8 @@ namespace GA
                     for (int j = 0; j < geneAID.Length; j++)
                     {
 
-                        geneAID[j] = genoAGeneData[i + j];
-                        geneBID[j] = genoBGeneData[i + j];
+                        geneAID[j] = genoA.Genes[i + j];
+                        geneBID[j] = genoB.Genes[i + j];
                     }
 
                     //current gene value
@@ -170,8 +176,8 @@ namespace GA
                     byte[] geneBValue = new byte[GeneData.geneValueLength];
                     for (int j = 0; j < GeneData.geneValueLength; j++)
                     {
-                        geneAValue[j] = genoAGeneData[i + (geneAID.Length) + j];
-                        geneBValue[j] = genoBGeneData[i + (geneBID.Length) + j];
+                        geneAValue[j] = genoA.Genes[i + (geneAID.Length) + j];
+                        geneBValue[j] = genoB.Genes[i + (geneBID.Length) + j];
                     }
 
                     if (geneAID.SequenceEqual(geneBID))

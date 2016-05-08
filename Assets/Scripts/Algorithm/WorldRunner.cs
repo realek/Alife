@@ -9,8 +9,9 @@ public class WorldRunner : MonoBehaviour {
 
 
     //BASIC DATA
-    int genomeSize = 63; // number of genes in genome;
-    int populationSize = 100;
+    private const int genomeSize = 63; // number of genes in genome;
+    private const int populationSize = 100;
+    private const int similarityRate = 75;
     WaitForEndOfFrame m_w8;
     //
     bool m_running;
@@ -18,10 +19,9 @@ public class WorldRunner : MonoBehaviour {
     Population population;
 	// Use this for initialization
 	void Start () {
-
-        m_running = true;
+    m_running = true;
         m_w8 = new WaitForEndOfFrame();
-
+        GenomeSimilarityCalculator.SetSimilarityRate(similarityRate);
         population = new Population(populationSize, genomeSize);
         population.GenerateInitalPopulation();
 
