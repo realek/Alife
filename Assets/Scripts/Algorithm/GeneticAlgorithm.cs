@@ -185,7 +185,7 @@ namespace GA
                                     //create random cuts within gene data
                                     int firstCutA = Random.Range(0, GeneData.geneValueLength - 1);
                                     int secondCutA = Random.Range(firstCutA, GeneData.geneValueLength);
-                                    for (int k = firstCutA; firstCutA < secondCutA; k++)
+                                    for (int k = firstCutA; k < secondCutA; k++)
                                     {
                                         byte aux = geneAValue[k];
                                         geneAValue[k] = geneBValue[k];
@@ -204,6 +204,18 @@ namespace GA
                         }
 
 
+                    }
+
+                    for (int j = 0; j < GeneData.geneIdentifierLength; j++)
+                    {
+                        firstChildgenes[i+j] = geneAID[j];
+                        secondChildgenes[i+j] = geneBID[j];
+                    }
+
+                    for (int j = 0; j < GeneData.geneValueLength; j++)
+                    {
+                        firstChildgenes[i+j+GeneData.geneIdentifierLength] = geneAValue[j];
+                        secondChildgenes[i+j+GeneData.geneIdentifierLength] = geneBValue[j];
                     }
 
                 }
