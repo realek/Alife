@@ -9,7 +9,6 @@ public class WorldRunner : MonoBehaviour {
 
 
     //BASIC DATA
-    System.Random rand;
     int genomeSize = 63; // number of genes in genome;
     int populationSize = 100;
     WaitForEndOfFrame m_w8;
@@ -22,8 +21,6 @@ public class WorldRunner : MonoBehaviour {
 
         m_running = true;
         m_w8 = new WaitForEndOfFrame();
-        rand = new System.Random();
-        int[] currentGoal = new int[genomeSize];
 
         population = new Population(populationSize, genomeSize);
         population.GenerateInitalPopulation();

@@ -12,9 +12,9 @@ namespace GA
         {
             byte[] geneData = geno.Genes;                        
             EncodedGenome eGeno = null;
-            float size = 0;
-            float power = 0;
-            float weight = 0;
+            int size = 0;
+            int power = 0;
+            int weight = 0;
             int nrArms = 0;
             int nrLegs = 0;
             int lifespan = 0;

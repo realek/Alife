@@ -77,7 +77,7 @@ namespace GA
         {
             get
             {
-                if (m_nrLegs == 0)
+                if (m_nrLegs == 0 || m_weight==0 || m_power == 0)
                 {
                     return 0;
                 }

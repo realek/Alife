@@ -13,10 +13,11 @@ namespace GA
         public readonly static byte[] lifeSpanGeneID = new byte[3] { 1, 0, 0 };
         public readonly static byte[] armsGeneID = new byte[3] { 1, 1, 0 };
         public readonly static byte[] legsGeneID = new byte[3] { 1, 1, 1 };
-        public readonly static int geneLength = 9;
-        public readonly static int geneIdentifierLength = 3;
-        public readonly static int geneValueLength = 6;
-        public readonly static int NrMandatoryGenes = 4;
+        public const int geneLength = 9;
+        public const int geneIdentifierLength = 3;
+        public const int geneValueLength = 6;
+        public const int NrMandatoryGenes = 4;
+        public const int TotalGenesNr = 7;
     }
 
 }

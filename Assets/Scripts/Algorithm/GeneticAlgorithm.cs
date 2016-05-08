@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 
 namespace GA
 {
@@ -12,9 +13,9 @@ namespace GA
        private static int m_generation = 0;
 
         /// <summary>
-        /// Evolves population
+        /// Evolves population, via crossover and mutation.
         /// </summary>
-        /// <param name="population"> population to be evolved (use ref keyword)</param>
+        /// <param name="population"> population to be evolved.</param>
         public static Population EvolvePopulation(Population population)
         {
 
@@ -24,7 +25,6 @@ namespace GA
             }
             if (population == null || population.GetGenome(0) == null)
             {
-               // Debug.LogError("POPULATION IS NULL, WTF ARE YOU DOING?");
                 return null;
             }
 
@@ -111,6 +111,17 @@ namespace GA
             return geno;
         }
 
+
+        private static bool Similarity(Genome genoA, Genome genoB)
+        {
+            if (genoA == null || genoB == null)
+            {
+                return false;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Cross over function, breeds children from parent genomes
         /// </summary>
@@ -134,20 +145,72 @@ namespace GA
             }
             else
             {
-             //   byte[] firstChildgenes = new byte[genoA.GenomeSize];
-              //  byte[] secondChildgenes = new byte[genoA.GenomeSize];
+                //children genome data
+                byte[] firstChildgenes = new byte[genoA.GenomeSize];
+                byte[] secondChildgenes = new byte[genoA.GenomeSize];
 
-//                byte[] genoAGeneData = genoA.Genes;
-  //              byte[] genoBGeneData = genoB.Genes;
+                //parents genome data
+                byte[] genoAGeneData = genoA.Genes;
+                byte[] genoBGeneData = genoB.Genes;
 
-    //            byte[] mandatoryGeneValuesA = new byte[GeneData.NrMandatoryGenes * GeneData.geneLength];
-      //          byte[] mandatoryGeneValuesB = new byte[GeneData.NrMandatoryGenes * GeneData.geneLength];
+                for (int i = 0; i < genoAGeneData.Length; i = i + GeneData.geneLength)
+                {
+                    //current gene id
+                    byte[] geneAID = new byte[GeneData.geneIdentifierLength];
+                    byte[] geneBID = new byte[GeneData.geneIdentifierLength];
+                    for (int j = 0; j < geneAID.Length; j++)
+                    {
+
+                        geneAID[j] = genoAGeneData[i + j];
+                        geneBID[j] = genoBGeneData[i + j];
+                    }
+
+                    //current gene value
+                    byte[] geneAValue = new byte[GeneData.geneValueLength];
+                    byte[] geneBValue = new byte[GeneData.geneValueLength];
+                    for (int j = 0; j < GeneData.geneValueLength; j++)
+                    {
+                        geneAValue[j] = genoAGeneData[i + (geneAID.Length) + j];
+                        geneBValue[j] = genoBGeneData[i + (geneBID.Length) + j];
+                    }
+
+                    if (geneAID.SequenceEqual(geneBID))
+                    {
+                        //encapsulated two point crossover within uniform crossover
+                        switch (Random.Range(0, 2))
+                        {
+                            //two point crossover
+                            case 0:
+                                {
+                                    //create random cuts within gene data
+                                    int firstCutA = Random.Range(0, GeneData.geneValueLength - 1);
+                                    int secondCutA = Random.Range(firstCutA, GeneData.geneValueLength);
+                                    for (int k = firstCutA; firstCutA < secondCutA; k++)
+                                    {
+                                        byte aux = geneAValue[k];
+                                        geneAValue[k] = geneBValue[k];
+                                        geneBValue[k] = aux;
+                                    }
+                                    break;
+                                }
+                                //fully replace gene values in acordance to encapsulating uniform cross over
+                            case 1:
+                                {
+                                    byte[] aux = geneAValue;
+                                    geneAValue = geneBValue;
+                                    geneBValue = aux;
+                                    break;
+                                }
+                        }
 
 
-                children[0] = genoA;
-                children[1] = genoB;
-                //  children[0] = new Genome(firstChildgenes);
-                // children[1] = new Genome(secondChildgenes); 
+                    }
+
+                }
+
+
+                children[0] = new Genome(firstChildgenes);
+                children[1] = new Genome(secondChildgenes);
 
                 return children;
             }
