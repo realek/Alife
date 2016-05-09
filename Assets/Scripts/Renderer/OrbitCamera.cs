@@ -82,6 +82,12 @@ public class OrbitCamera : MonoBehaviour
 
             this.Rotate(_x, _y);
         }
+        else
+        {
+
+            this.Rotate(_x, _y);
+        }
+        
 
     }
 

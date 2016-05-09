@@ -5,6 +5,7 @@ public class LegAnimator : MonoBehaviour {
 
     public float speed;
     public AnimationCurve aCurve;
+    public bool alreadyUsed;
 
     Vector3 origRot;
 

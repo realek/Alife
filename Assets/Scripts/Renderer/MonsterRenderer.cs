@@ -20,15 +20,18 @@ public class MonsterRenderer : MonoBehaviour {
         wr = GameObject.FindObjectOfType<WorldRunner>();
 	}
 
+    public GameObject RenderBest()
+    {
+
+        GA.EncodedGenome temp = wr.CPopulation.BestGenome.encoded;
+
+        GameObject lastMonster = CreateMonster(temp.Size, temp.NumberOfLegs, temp.NumberOfArms, temp.Color, temp.Speed, temp.Power);
+        return lastMonster;
+    }
+
     void Update() {
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
-
-            GA.EncodedGenome temp =  wr.CPopulation.BestGenome.encoded;
-
-            CreateMonster(temp.Size,temp.NumberOfLegs,temp.NumberOfArms,temp.Color,temp.Speed,temp.Power);
-            Debug.Log(temp.Color);
-        }
+        
     
     }
 
@@ -59,7 +62,7 @@ public class MonsterRenderer : MonoBehaviour {
         
     }
 
-    public void CreateMonster(float size,int nlegs,int narms,Color color,float speed,float power) {
+    public GameObject CreateMonster(float size,int nlegs,int narms,Color color,float speed,float power) {
         GameObject goBody = Instantiate(p_Body);
         currentBody = goBody.transform;
 
@@ -134,11 +137,17 @@ public class MonsterRenderer : MonoBehaviour {
         LegAnimator[] legs = GameObject.FindObjectsOfType<LegAnimator>();
         for (int i = 0; i < legs.Length; i++)
         {
-            legs[i].speed = speed;
-            legs[i].transform.localScale *= power;
-        }
-        
+            if(!legs[i].alreadyUsed)
+            {
+                legs[i].speed = speed;
+                legs[i].transform.localScale *= power;
+                legs[i].alreadyUsed = true;
 
+            }
+        }
+            
+
+        return goBody;
     }
 
     void ColorPartOfCreature(string tagname, Color color) {
@@ -147,6 +156,7 @@ public class MonsterRenderer : MonoBehaviour {
         for (int i = 0; i < list.Length; i++)
         {
             list[i].GetComponent<Renderer>().material.color = color;
+            list[i].gameObject.tag = "Untagged";
         }
        
     
