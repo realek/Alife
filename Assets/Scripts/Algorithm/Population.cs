@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GA
 {
     [Serializable]
-    class Population
+    public class Population
     {
         private System.Random m_Randomizer;
         [SerializeField]
@@ -29,10 +29,6 @@ namespace GA
             }
         }
 
-        public void ReplaceGenome(int index, Genome geno)
-        {
-            m_Genomes[index] = geno;
-        }
 
         public Genome GetGenome(int index)
         {

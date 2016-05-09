@@ -4,7 +4,7 @@
 namespace GA
 {
     [System.Serializable]
-    class Genome
+    public class Genome
     {
         private int m_GenomeSize;
         private float m_GenomeFitness;

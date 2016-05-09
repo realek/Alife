@@ -18,7 +18,7 @@ public class WorldRunner : MonoBehaviour {
     [SerializeField]
     Population population;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
     m_running = true;
         m_w8 = new WaitForEndOfFrame();
         GenomeSimilarityCalculator.SetSimilarityRate(similarityRate);
@@ -41,5 +41,13 @@ public class WorldRunner : MonoBehaviour {
 
         }
 
+    }
+
+    public Population CPopulation 
+    {
+        get
+        {
+            return population;
+        }
     }
 }

@@ -8,16 +8,28 @@ public class MonsterRenderer : MonoBehaviour {
 
     Transform currentBody;
 
-   
+    WorldRunner wr;
 
 	// Use this for initialization
-	void Awake () {
+	void Start () {
         p_Body = Resources.Load("BodyParts/Body") as GameObject;
         p_Leg = Resources.Load("BodyParts/Leg") as GameObject;
         p_Arm = Resources.Load("BodyParts/Arm") as GameObject;
         p_Head = Resources.Load("BodyParts/Head") as GameObject;
         //CreateMonster(Size,NumberOfLegs,NumberOfArms,CreatureColor,Speed,Power);
+        wr = GameObject.FindObjectOfType<WorldRunner>();
 	}
+
+    void Update() {
+
+        if (Input.GetKeyDown(KeyCode.Space)) {
+
+            GA.EncodedGenome temp =  wr.CPopulation.BestGenome.encoded;
+
+            CreateMonster(temp.Size,temp.NumberOfLegs,temp.NumberOfArms,temp.Color,temp.Speed,temp.Power);
+        }
+    
+    }
 
     void InstantiatePart(GameObject part, Transform where)
     {

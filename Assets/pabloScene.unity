@@ -85,6 +85,47 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &168815142
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 168815144}
+  - 114: {fileID: 168815143}
+  m_Layer: 0
+  m_Name: WorldRunner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &168815143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 168815142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e298ca54fe7594588a31062ba2a43b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  population:
+    m_Genomes: []
+--- !u!4 &168815144
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 168815142}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.2291794, y: 19.764118, z: 7.2792625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
 --- !u!1 &380019549
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,15 +344,15 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1869082204}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 983bb0db453548c469111109a3a100bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Size: 3
-  NumberOfLegs: 20
-  NumberOfArms: 20
-  Speed: 2
+  NumberOfLegs: 4
+  NumberOfArms: 2
+  Speed: 16.71
   Power: 5
   CreatureColor: {r: 0.7058823, g: 0.2439446, b: 0.2439446, a: 0}
 --- !u!1 &1934824818
