@@ -29,11 +29,7 @@ public class MonsterRenderer : MonoBehaviour {
         return lastMonster;
     }
 
-    void Update() {
 
-        
-    
-    }
 
     void InstantiatePart(GameObject part, Transform where)
     {
