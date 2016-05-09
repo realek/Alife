@@ -145,6 +145,10 @@ public class MonsterRenderer : MonoBehaviour {
 
             }
         }
+
+        //rotate object
+        float angle = Random.Range(0f, 360f);
+        goBody.transform.Rotate(0f, angle, 0f);
             
 
         return goBody;
