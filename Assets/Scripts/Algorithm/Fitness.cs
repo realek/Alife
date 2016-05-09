@@ -9,16 +9,6 @@ namespace GA
     }
     static class Fitness
     {
-        private static byte[] _desiredGenes;
-
-        public static void LoadGoal(int[] goal)
-        {
-            _desiredGenes = new byte[goal.Length];
-            for(int i = 0; i < goal.Length; i++)
-            {
-                _desiredGenes[i] = byte.Parse(goal[i].ToString());
-            }
-        }
 
         public static float FoodFitness(Genome Geno,FitnessFunction funcType)
         {
@@ -36,11 +26,6 @@ namespace GA
             return fitness;
         }
 
-        public static int MaxFitness()
-        {
-            int maxFitness = _desiredGenes.Length;
-            return maxFitness;
-        }
     }
     
 }

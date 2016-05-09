@@ -63,17 +63,18 @@ namespace GA
                 }
                 else
                 {
-
+                    nPop.InsertGenome(parent1);
+                    nPop.InsertGenome(parent2);
                 }
                 
             }
 
             //mutate after breeding
-            for (int i = iVal; i < nPop.PopulationSize; i++)
+            for (int i = 0; i < nPop.PopulationSize; i++)
             {
-            //    Mutate(nPop.GetGenome(i));
+                Mutate(nPop.GetGenome(i));
+
             }
-      //      Debug.Log("Evolution Complete");
 
             m_generation++;
             m_evolving = false;
@@ -242,13 +243,23 @@ namespace GA
         /// <param name="geno"></param>
         private static void Mutate(Genome geno)
         {
-            for (int i = 0; i < geno.GenomeSize; i++)
+            for (int i = 0; i < geno.Genes.Length; i = i + GeneData.geneLength)
             {
-                if (Random.value <= m_mutationRate)
+                byte[] geneID = new byte[GeneData.geneIdentifierLength];
+                for (int j = 0; j < geneID.Length; j++)
                 {
-                    byte gene = (byte)Random.Range(0, 2);
-                    geno.MutateGene(i, gene);
-                   
+
+                    geneID[j] = geno.Genes[i + j];
+                }
+
+                byte[] geneValue = new byte[GeneData.geneValueLength];
+
+                for (int j = 0; j < GeneData.geneValueLength; j++)
+                {
+                    if (Random.value <= m_mutationRate)
+                    {
+                        geno.MutateGene(i + (geneID.Length) + j, (byte)Random.Range(0, 2));
+                    }
                 }
             }
         }

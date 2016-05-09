@@ -8,6 +8,7 @@ namespace GA
     {
         private int m_GenomeSize;
         private float m_GenomeFitness;
+        [SerializeField]
         private byte[] m_Genes;
         public EncodedGenome encoded;
         private const int m_ValSize = 6;
@@ -53,17 +54,17 @@ namespace GA
 
             for (int i = 0; i < m_ValSize; i++)
             {
-                m_Genes[i+m_IDSize] = byte.Parse(Random.Range(0, 2).ToString());
-                m_Genes[i+m_weightIDIDX+m_IDSize] = byte.Parse(Random.Range(0, 2).ToString());
-                m_Genes[i+m_powerIDIDX+m_IDSize] = byte.Parse(Random.Range(0, 2).ToString());
-                m_Genes[i+m_lifeSpanIDIDX+m_IDSize] = byte.Parse(Random.Range(0, 2).ToString());
+                m_Genes[i+m_IDSize] = (byte)Random.Range(0, 2);
+                m_Genes[i+m_weightIDIDX+m_IDSize] = (byte)Random.Range(0, 2);
+                m_Genes[i+m_powerIDIDX+m_IDSize] = (byte)Random.Range(0, 2);
+                m_Genes[i+m_lifeSpanIDIDX+m_IDSize] = (byte)Random.Range(0, 2);
             }
 
 
 
             for (int i = m_lifeSpanIDIDX+m_IDSize+m_ValSize; i < m_Genes.Length; i++)
             {
-                m_Genes[i] = byte.Parse(Random.Range(0,2).ToString());
+                m_Genes[i] = (byte)Random.Range(0, 2);
             }
 
             

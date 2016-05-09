@@ -19,9 +19,14 @@ namespace GA
         /// <param name="rate"></param>
         public static void SetSimilarityRate(int rate)
         {
-            similarityRate = Mathf.Clamp(rate, 10, 100);
+            similarityRate = Mathf.Clamp(rate, minSimilarity, maxSimilarity);
         }
 
+        /// <summary>
+        /// Normalization function
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         private static int NormalizeToSimilarityRate(int x)
         {
             int nnMax = GeneData.geneLength * GeneData.TotalGenesNr;
@@ -58,11 +63,14 @@ namespace GA
                     geneBValue[j] = genoB.Genes[i + (geneBID.Length) + j];
                 }
 
+                ///check if gene is the same
                 if (geneAID.SequenceEqual(geneBID))
                 {
+                    //add gene id value to factor
                     similarityFactor += GeneData.geneIdentifierLength;
                     for (int j = 0; j < geneAValue.Length; j++)
                     {
+                        //compare geneValue data for each matching bit increment
                         if (geneAValue[j] == geneBValue[j])
                         {
                             similarityFactor++;
@@ -71,6 +79,7 @@ namespace GA
                 }
 
             }
+            //normalize similarity factor
             similarityFactor = NormalizeToSimilarityRate(similarityFactor);
             if (similarityFactor >= similarityRate)
             {

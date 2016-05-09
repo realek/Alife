@@ -24,7 +24,7 @@ public class WorldRunner : MonoBehaviour {
         GenomeSimilarityCalculator.SetSimilarityRate(similarityRate);
         population = new Population(populationSize, genomeSize);
         population.GenerateInitalPopulation();
-
+        population.EvaluatePopulation();
         StartCoroutine(WorldRoutine());
     }
 	
@@ -32,9 +32,10 @@ public class WorldRunner : MonoBehaviour {
     {
         while (m_running)
         {
-            population.EvaluatePopulation();
+
             Debug.Log("Current gen: " + GeneticAlgorithm.Generation + " most fit is: " + population.BestGenome.Fitness);
             population = GeneticAlgorithm.EvolvePopulation(population);
+            population.EvaluatePopulation();
             yield return m_w8;
 
 
