@@ -33,7 +33,7 @@ public class WorldRunner : MonoBehaviour {
         while (m_running)
         {
 
-            Debug.Log("Current gen: " + GeneticAlgorithm.Generation + " most fit is: " + population.BestGenome.Fitness);
+           // Debug.Log("Current gen: " + GeneticAlgorithm.Generation + " most fit is: " + population.BestGenome.Fitness);
             population = GeneticAlgorithm.EvolvePopulation(population);
             population.EvaluatePopulation();
             yield return m_w8;

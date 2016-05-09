@@ -17,6 +17,7 @@ namespace GA
         private const int m_weightIDIDX = 9;
         private const int m_powerIDIDX = 18;
         private const int m_lifeSpanIDIDX = 27;
+        private const int m_colorIDIDX = 36;
         public bool discarded;
 
         public Genome(int seed, int size)
@@ -50,19 +51,21 @@ namespace GA
                 m_Genes[i + m_weightIDIDX] = GeneData.weightGeneID[i];
                 m_Genes[i + m_powerIDIDX] = GeneData.powerGeneID[i];
                 m_Genes[i + m_lifeSpanIDIDX] = GeneData.lifeSpanGeneID[i];
+                m_Genes[i + m_colorIDIDX] = GeneData.colorGeneID[i];
             }
 
             for (int i = 0; i < m_ValSize; i++)
             {
-                m_Genes[i+m_IDSize] = (byte)Random.Range(0, 2);
-                m_Genes[i+m_weightIDIDX+m_IDSize] = (byte)Random.Range(0, 2);
-                m_Genes[i+m_powerIDIDX+m_IDSize] = (byte)Random.Range(0, 2);
-                m_Genes[i+m_lifeSpanIDIDX+m_IDSize] = (byte)Random.Range(0, 2);
+                m_Genes[i + m_IDSize] = (byte)Random.Range(0, 2);
+                m_Genes[i + m_weightIDIDX + m_IDSize] = (byte)Random.Range(0, 2);
+                m_Genes[i + m_powerIDIDX + m_IDSize] = (byte)Random.Range(0, 2);
+                m_Genes[i + m_lifeSpanIDIDX + m_IDSize] = (byte)Random.Range(0, 2);
+                m_Genes[i + m_colorIDIDX + m_IDSize] = (byte)Random.Range(0, 2);
             }
 
 
 
-            for (int i = m_lifeSpanIDIDX+m_IDSize+m_ValSize; i < m_Genes.Length; i++)
+            for (int i = m_colorIDIDX+m_IDSize+m_ValSize; i < m_Genes.Length; i++)
             {
                 m_Genes[i] = (byte)Random.Range(0, 2);
             }

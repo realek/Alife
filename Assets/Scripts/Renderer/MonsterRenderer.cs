@@ -27,6 +27,7 @@ public class MonsterRenderer : MonoBehaviour {
             GA.EncodedGenome temp =  wr.CPopulation.BestGenome.encoded;
 
             CreateMonster(temp.Size,temp.NumberOfLegs,temp.NumberOfArms,temp.Color,temp.Speed,temp.Power);
+            Debug.Log(temp.Color);
         }
     
     }
