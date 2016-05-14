@@ -100,7 +100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &168815143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1574,16 +1574,16 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1869082204}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 983bb0db453548c469111109a3a100bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: 6
+  Size: 1
   NumberOfLegs: 8
   NumberOfArms: 4
   Speed: 1
-  Power: 4
+  Power: 1
   CreatureColor: {r: 0.22334558, g: 0.5955882, b: 0.5955882, a: 0}
 --- !u!1 &1873814762
 GameObject:
