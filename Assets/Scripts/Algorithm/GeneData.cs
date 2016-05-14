@@ -16,8 +16,9 @@ namespace GA
         public const int geneLength = 9;
         public const int geneIdentifierLength = 3;
         public const int geneValueLength = 6;
-        public const int NrMandatoryGenes = 4;
+        public const int NrMandatoryGenes = 7;
         public const int TotalGenesNr = 7;
+        public const float AgeStep = 0.0001f;
     }
 
 }

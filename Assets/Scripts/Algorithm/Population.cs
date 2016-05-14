@@ -13,6 +13,7 @@ namespace GA
         private Genome m_BestGenome;
         private int m_GenomeSize;
         private int m_Popsize;
+        private float m_PopAvgFitness;
         public Population(int popSize, int genoSize)
         {
             m_GenomeSize = genoSize;
@@ -40,14 +41,26 @@ namespace GA
             List<Genome> properGenomes = new List<Genome>();
             for (int i = 0; i < m_Genomes.Count; i++)
             {
-                m_Genomes[i].encoded = GenomeEncoder.Encode(m_Genomes[i]);
-                if (m_Genomes[i].encoded == null)
+                if (!m_Genomes[i].dead)
+                {
+                    m_Genomes[i].encoded = GenomeEncoder.Encode(m_Genomes[i]);
+                    if (m_Genomes[i].encoded == null)
+                    {
+                        m_Genomes[i].discarded = true;
+                    }
+                }
+                else
                 {
                     m_Genomes[i].discarded = true;
                 }
 
+
                 if (!m_Genomes[i].discarded)
                 {
+                    if (m_Genomes[i].LifeSpan == 0)
+                    {
+                        m_Genomes[i].LifeSpan = m_Genomes[i].encoded.LifeSpan;
+                    }
                     properGenomes.Add(m_Genomes[i]);
                 }
             }
@@ -66,6 +79,27 @@ namespace GA
                 }
             }
            }
+
+        /// <summary>
+        /// Must always be called after the first evaluation, but always before the second,
+        /// checks if the genome is about to die
+        /// </summary>
+        public void AgePopulation()
+        {
+
+            for (int i = 0; i < m_Genomes.Count; i++)
+            {
+                if (!m_Genomes[i].dead && m_Genomes[i].LifeSpan > 0)
+                {
+                    m_Genomes[i].LifeSpan -= GeneData.AgeStep;
+                }
+                else if(m_Genomes[i].LifeSpan < GeneData.AgeStep)
+                {
+                    m_Genomes[i].dead = true;
+                }
+
+            }
+        }
 
         public void InsertGenome(Genome chromo)
         {

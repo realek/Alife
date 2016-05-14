@@ -18,12 +18,17 @@ namespace GA
         private const int m_powerIDIDX = 18;
         private const int m_lifeSpanIDIDX = 27;
         private const int m_colorIDIDX = 36;
+        private const int m_armsIDIDX = 45;
+        private const int m_legsIDIDX = 54;
         public bool discarded;
+        public bool dead;
+        private float m_lifespan;
 
         public Genome(int seed, int size)
         {
             
             discarded = false;
+            dead = false;
             m_GenomeSize = size;
             m_Genes = new byte[m_GenomeSize];
             GenerateGenome();
@@ -43,6 +48,9 @@ namespace GA
             }
         }
 
+        /// <summary>
+        /// Generates the gene data for the genome, weight,power,lifespan,color, arms and legs.
+        /// </summary>
         private void GenerateGenome()
         {
             for (int i = 0; i < m_IDSize; i++)
@@ -52,6 +60,8 @@ namespace GA
                 m_Genes[i + m_powerIDIDX] = GeneData.powerGeneID[i];
                 m_Genes[i + m_lifeSpanIDIDX] = GeneData.lifeSpanGeneID[i];
                 m_Genes[i + m_colorIDIDX] = GeneData.colorGeneID[i];
+                m_Genes[i + m_armsIDIDX] = GeneData.armsGeneID[i];
+                m_Genes[i + m_legsIDIDX] = GeneData.legsGeneID[i];
             }
 
             for (int i = 0; i < m_ValSize; i++)
@@ -61,13 +71,8 @@ namespace GA
                 m_Genes[i + m_powerIDIDX + m_IDSize] = (byte)Random.Range(0, 2);
                 m_Genes[i + m_lifeSpanIDIDX + m_IDSize] = (byte)Random.Range(0, 2);
                 m_Genes[i + m_colorIDIDX + m_IDSize] = (byte)Random.Range(0, 2);
-            }
-
-
-
-            for (int i = m_colorIDIDX+m_IDSize+m_ValSize; i < m_Genes.Length; i++)
-            {
-                m_Genes[i] = (byte)Random.Range(0, 2);
+                m_Genes[i + m_armsIDIDX + m_IDSize] = (byte)Random.Range(0, 2);
+                m_Genes[i + m_legsIDIDX + m_IDSize] = (byte)Random.Range(0, 2);
             }
 
             
@@ -98,6 +103,18 @@ namespace GA
             get
             {
                 return m_GenomeFitness;
+            }
+        }
+
+        public float LifeSpan
+        {
+            get
+            {
+                return m_lifespan;
+            }
+            set
+            {
+                m_lifespan = value;
             }
         }
 

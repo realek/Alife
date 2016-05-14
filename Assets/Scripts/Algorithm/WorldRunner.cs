@@ -11,7 +11,7 @@ public class WorldRunner : MonoBehaviour {
     //BASIC DATA
     private const int genomeSize = 63; // number of genes in genome;
     private const int populationSize = 100;
-    private const int similarityRate = 75;
+    private const int similarityRate = 85;
     WaitForEndOfFrame m_w8;
     //
     bool m_running;
@@ -35,6 +35,7 @@ public class WorldRunner : MonoBehaviour {
 
            // Debug.Log("Current gen: " + GeneticAlgorithm.Generation + " most fit is: " + population.BestGenome.Fitness);
             population = GeneticAlgorithm.EvolvePopulation(population);
+            population.AgePopulation();
             population.EvaluatePopulation();
             yield return m_w8;
 
