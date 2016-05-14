@@ -15,7 +15,7 @@ public class MonsterTester : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        GetComponent<MonsterRenderer>().CreateMonster(Size, NumberOfLegs, NumberOfArms, CreatureColor, Speed, Power);
+        GetComponent<MonsterRenderer>().CreateMonster(Size, NumberOfLegs, NumberOfArms, CreatureColor, Speed, Power,true,true);
 	}
 	
 	// Update is called once per frame

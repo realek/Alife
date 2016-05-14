@@ -4,7 +4,7 @@ using System.Collections;
 public class MonsterRenderer : MonoBehaviour {
 
     GameObject p_Body;
-    GameObject p_Leg,p_Head,p_Arm;
+    GameObject p_Leg,p_LegClimb,p_Head,p_Arm,p_HeadWater;
 
     Transform currentBody;
 
@@ -14,8 +14,10 @@ public class MonsterRenderer : MonoBehaviour {
 	void Start () {
         p_Body = Resources.Load("BodyParts/Body") as GameObject;
         p_Leg = Resources.Load("BodyParts/Leg") as GameObject;
+        p_LegClimb = Resources.Load("BodyParts/LegClimb") as GameObject;
         p_Arm = Resources.Load("BodyParts/Arm") as GameObject;
         p_Head = Resources.Load("BodyParts/Head") as GameObject;
+        p_HeadWater = Resources.Load("BodyParts/HeadSwim") as GameObject;
         //CreateMonster(Size,NumberOfLegs,NumberOfArms,CreatureColor,Speed,Power);
         wr = GameObject.FindObjectOfType<WorldRunner>();
 	}
@@ -25,7 +27,7 @@ public class MonsterRenderer : MonoBehaviour {
 
         GA.EncodedGenome temp = wr.CPopulation.BestGenome.encoded;
 
-        GameObject lastMonster = CreateMonster(temp.Size, temp.NumberOfLegs, temp.NumberOfArms, temp.Color, temp.Speed, temp.Power);
+        GameObject lastMonster = CreateMonster(temp.Size, temp.NumberOfLegs, temp.NumberOfArms, temp.Color, temp.Speed, temp.Power, temp.CanSwim,temp.CanClimb);
         return lastMonster;
     }
 
@@ -37,8 +39,7 @@ public class MonsterRenderer : MonoBehaviour {
 
         GameObject go = Instantiate(part, where.position+diff, where.rotation) as GameObject;
         go.transform.parent = currentBody;
-        Debug.Log(part.name + " instantiated at " + where.position.ToString());
-
+        
         go.transform.localScale *= 1f;
     }
 
@@ -48,7 +49,7 @@ public class MonsterRenderer : MonoBehaviour {
         {
             float percent = (i + 1) / (float)(1 + numberOfLegs);
             //percent = 0.5f;
-            Debug.Log(percent);
+            
             Transform t = new GameObject().transform;
             t.position = Vector3.Lerp(socketStart.transform.position, socketEnd.transform.position, percent);
             t.rotation = socketEnd.transform.rotation;
@@ -58,7 +59,7 @@ public class MonsterRenderer : MonoBehaviour {
         
     }
 
-    public GameObject CreateMonster(float size,int nlegs,int narms,Color color,float speed,float power) {
+    public GameObject CreateMonster(float size,int nlegs,int narms,Color color,float speed,float power, bool canSwim, bool canClimb) {
         GameObject goBody = Instantiate(p_Body);
         currentBody = goBody.transform;
 
@@ -79,7 +80,17 @@ public class MonsterRenderer : MonoBehaviour {
 
 
         // head
-        InstantiatePart(p_Head, bsm.HeadSocket.transform);
+
+        if(canSwim)
+        {
+            Debug.Log("Can swim");
+            InstantiatePart(p_HeadWater, bsm.HeadSocket.transform);
+        }
+        else
+        {
+            InstantiatePart(p_Head, bsm.HeadSocket.transform);
+        }
+        
 
         //legs
 
@@ -95,8 +106,17 @@ public class MonsterRenderer : MonoBehaviour {
             left_legs = (nlegs - 1) / 2;
         }
 
-        PlaceLimbs(bsm.LeftLegSocketStart, bsm.LeftLegSocketEnd, left_legs,p_Leg);
-        PlaceLimbs(bsm.RightLegSocketStart, bsm.RightLegSocketEnd, right_legs, p_Leg);
+        if (!canClimb)
+        {
+            PlaceLimbs(bsm.LeftLegSocketStart, bsm.LeftLegSocketEnd, left_legs, p_Leg);
+            PlaceLimbs(bsm.RightLegSocketStart, bsm.RightLegSocketEnd, right_legs, p_Leg);
+        }
+        else
+        {
+            PlaceLimbs(bsm.LeftLegSocketStart, bsm.LeftLegSocketEnd, left_legs, p_LegClimb);
+            PlaceLimbs(bsm.RightLegSocketStart, bsm.RightLegSocketEnd, right_legs, p_LegClimb);
+        }
+        
 
         /// arms
 

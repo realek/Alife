@@ -1579,12 +1579,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983bb0db453548c469111109a3a100bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: 3
-  NumberOfLegs: 4
-  NumberOfArms: 2
-  Speed: 16.71
-  Power: 5
-  CreatureColor: {r: 0.7058823, g: 0.2439446, b: 0.2439446, a: 0}
+  Size: 6
+  NumberOfLegs: 8
+  NumberOfArms: 4
+  Speed: 1
+  Power: 4
+  CreatureColor: {r: 0.22334558, g: 0.5955882, b: 0.5955882, a: 0}
 --- !u!1 &1873814762
 GameObject:
   m_ObjectHideFlags: 0
