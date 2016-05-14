@@ -12,7 +12,9 @@ public class WorldRunner : MonoBehaviour {
     private const int genomeSize = 63; // number of genes in genome;
     private const int populationSize = 100;
     private const int similarityRate = 85;
-    WaitForEndOfFrame m_w8;
+    [SerializeField]
+    private float timeStep = 1;
+    WaitForSeconds m_w8;
     //
     bool m_running;
     [SerializeField]
@@ -20,7 +22,7 @@ public class WorldRunner : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
     m_running = true;
-        m_w8 = new WaitForEndOfFrame();
+        m_w8 = new WaitForSeconds(Time.deltaTime*timeStep);
         GenomeSimilarityCalculator.SetSimilarityRate(similarityRate);
         population = new Population(populationSize, genomeSize);
         population.GenerateInitalPopulation();
@@ -35,7 +37,6 @@ public class WorldRunner : MonoBehaviour {
 
            // Debug.Log("Current gen: " + GeneticAlgorithm.Generation + " most fit is: " + population.BestGenome.Fitness);
             population = GeneticAlgorithm.EvolvePopulation(population);
-            population.AgePopulation();
             population.EvaluatePopulation();
             yield return m_w8;
 

@@ -12,7 +12,7 @@ namespace GA
        private static bool m_elite = true;
        private static bool m_evolving = false;
        private static int m_generation = 0;
-
+       private static int m_maxPopulation = 250;
         /// <summary>
         /// Main function of the algorithm, handles breeding within the current population, then mutation(we first breed than we mutate)
         /// </summary>
@@ -48,7 +48,7 @@ namespace GA
 
             ///Breeding process
             List<Genome> parents = new List<Genome>(0);
-            for (int i = iVal; i < population.PopulationSize; i=i+2)
+            for (int i = iVal; i < population.PopulationSize; i++)
             {
                 
                 Genome parent1 = SelectionByTournament(population);
@@ -74,19 +74,29 @@ namespace GA
                 }
                 else
                 {
-                    nPop.InsertGenome(parent1);
-                    nPop.InsertGenome(parent2);
+                    if (!parents.Contains(parent1))
+                    {
+                        parents.Add(parent1);
+                    }
+
+                    if (!parents.Contains(parent1))
+                    {
+                        parents.Add(parent1);
+                    }
                 }
                 
             }
 
             //mutate after breeding
-            for (int i = 0; i < nPop.PopulationSize; i++)
+            for (int i = 0; i < nPop.PopulationSize; i=i+2)
             {
                 Mutate(nPop.GetGenome(i));
 
             }
+            
 
+
+            // insert parents
             for (int i = 0; i < parents.Count; i++)
             {
                 nPop.InsertGenome(parents[i]);
@@ -161,8 +171,7 @@ namespace GA
             {
                 return null;
             }
-            int noOfchildren = (int)(genoA.Fitness + genoB.Fitness + ((genoA.LifeSpan + genoB.LifeSpan)/2));
-            Debug.Log(noOfchildren);
+            int noOfchildren = (int)((genoA.Fitness + genoB.Fitness)/2.0f);
             Genome[] children = new Genome[noOfchildren]; // 2 parents two children simple crossover
             if(Random.value > m_crossOverRate)
             {

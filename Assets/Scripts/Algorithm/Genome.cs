@@ -21,14 +21,11 @@ namespace GA
         private const int m_armsIDIDX = 45;
         private const int m_legsIDIDX = 54;
         public bool discarded;
-        public bool dead;
-        private float m_lifespan;
 
         public Genome(int seed, int size)
         {
             
             discarded = false;
-            dead = false;
             m_GenomeSize = size;
             m_Genes = new byte[m_GenomeSize];
             GenerateGenome();
@@ -105,18 +102,5 @@ namespace GA
                 return m_GenomeFitness;
             }
         }
-
-        public float LifeSpan
-        {
-            get
-            {
-                return m_lifespan;
-            }
-            set
-            {
-                m_lifespan = value;
-            }
-        }
-
     }
 }
