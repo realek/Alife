@@ -54,7 +54,7 @@ namespace GA
         {
             get
             {
-                return m_power >= m_weight;
+                return (m_power+m_nrLegs)/m_size >= m_weight;
             }
         }
 
