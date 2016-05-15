@@ -13,6 +13,10 @@ public class WorldRunner : MonoBehaviour {
     private const int populationSize = 50;
     private const int similarityRate = 75;
     [SerializeField]
+    private bool flood = false;
+    [SerializeField]
+    private bool meteor = false;
+    [SerializeField]
     private float timeStep = 1;
     WaitForSeconds m_w8;
     //
@@ -38,6 +42,7 @@ public class WorldRunner : MonoBehaviour {
            // Debug.Log("Current gen: " + GeneticAlgorithm.Generation + " most fit is: " + population.BestGenome.Fitness);
             population = GeneticAlgorithm.EvolvePopulation(population);
             population.EvaluatePopulation();
+            population.MassExtinction(ref flood,ref meteor);
             yield return m_w8;
 
 

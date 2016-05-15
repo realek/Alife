@@ -112,9 +112,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9e298ca54fe7594588a31062ba2a43b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeStep: 35
+  flood: 0
+  meteor: 0
+  timeStep: 1
   population:
     m_Genomes: []
+    m_BestGenome:
+      m_Genes: 
+      discarded: 0
 --- !u!4 &168815144
 Transform:
   m_ObjectHideFlags: 0

@@ -37,13 +37,18 @@ namespace GA
             return m_Genomes[index];
         }
 
+
         public void EvaluatePopulation()
         {
             List<Genome> properGenomes = new List<Genome>();
             for (int i = 0; i < m_Genomes.Count; i++)
             {
-                m_Genomes[i].encoded = GenomeEncoder.Encode(m_Genomes[i]);
-                if (m_Genomes[i].encoded == null)
+                if (!m_Genomes[i].discarded)
+                {
+                    m_Genomes[i].encoded = GenomeEncoder.Encode(m_Genomes[i]);
+                }
+
+                if (m_Genomes[i].encoded == null && !m_Genomes[i].discarded)
                 {
                     m_Genomes[i].discarded = true;
                 }
@@ -65,13 +70,46 @@ namespace GA
                 {
                     m_BestGenome = m_Genomes[i];
                 }
-                else if(m_BestGenome.Fitness < m_Genomes[i].Fitness)
+                else if (m_BestGenome.Fitness < m_Genomes[i].Fitness)
                 {
                     m_BestGenome = m_Genomes[i];
                 }
             }
             m_PopAvgFitness = avgFitness / m_Genomes.Count;
-           }
+        }
+
+
+
+
+
+        public void MassExtinction(ref bool flood, ref bool meteor)
+        {
+            if (flood || meteor)
+            {
+                for (int i = 0; i < m_Genomes.Count; i++)
+                {
+                    if (flood)
+                    {
+                        m_Genomes[i].Fitness = Fitness.Flood(m_Genomes[i]);
+                    }
+                    else if (meteor)
+                    {
+                        m_Genomes[i].Fitness = Fitness.MeteorStrike(m_Genomes[i]);
+                    }
+
+                    if (m_Genomes[i].Fitness == 0)
+                    {
+                        m_Genomes[i].discarded = true;
+                    }
+
+                }
+
+                EvaluatePopulation();
+                flood = false;
+                meteor = false;
+            }
+
+        }
 
         /// <summary>
         /// Must always be called after the first evaluation, but always before the second,
