@@ -58,11 +58,19 @@ namespace GA
             }
         }
 
+        public float Weight
+        {
+            get
+            {
+                return m_weight;
+            }
+        }
+
         public bool CanClimb
         {
             get
             {
-                if (m_nrArms == 0)
+                if (m_nrArms == 0 || m_size == 0)
                 {
                     return false;
                 }

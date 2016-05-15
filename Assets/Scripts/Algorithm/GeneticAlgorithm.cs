@@ -7,7 +7,7 @@ namespace GA
     static class GeneticAlgorithm
     {
        private static float m_crossOverRate = 0.7f;
-       private static float m_mutationRate = 0.2f;
+       private static float m_mutationRate = 0.225f;
        private static int m_tournamentSize = 4;
        private static bool m_elite = true;
        private static bool m_evolving = false;
@@ -34,12 +34,7 @@ namespace GA
                 nPop.InsertGenome(population.BestGenome);
             }
 
-            for (int i = 0; i < population.PopulationSize; i = i + 2)
-            {
-
-            }
-
-                int iVal = 0;
+            int iVal = 0;
             //offset for best fitt individual
             if (m_elite)
             {
@@ -48,7 +43,7 @@ namespace GA
 
             ///Breeding process
             List<Genome> parents = new List<Genome>(0);
-            for (int i = iVal; i < population.PopulationSize; i++)
+            for (int i = iVal; i < population.PopulationSize; i=i+2)
             {
                 
                 Genome parent1 = SelectionByTournament(population);
@@ -70,6 +65,10 @@ namespace GA
                     for (int j = 0; j < children.Length; j++)
                     {
                         nPop.InsertGenome(children[j]);
+                        if (nPop.PopulationSize == m_maxPopulation)
+                        {
+                            break;
+                        }
                     }
                 }
                 else
@@ -84,23 +83,33 @@ namespace GA
                         parents.Add(parent1);
                     }
                 }
-                
-            }
 
+                if (nPop.PopulationSize >= m_maxPopulation)
+                {
+                    break;
+                }
+
+            }
+            for (int pop = m_maxPopulation - nPop.PopulationSize; pop > 0; pop--)
+            {
+                for (int i = 0; i < parents.Count; i++)
+                {
+                    if (parents[i].Fitness >= population.AverageFitness)
+                    {
+                        nPop.InsertGenome(parents[i]);
+                        parents.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
             //mutate after breeding
             for (int i = 0; i < nPop.PopulationSize; i=i+2)
             {
                 Mutate(nPop.GetGenome(i));
 
             }
-            
+ 
 
-
-            // insert parents
-            for (int i = 0; i < parents.Count; i++)
-            {
-                nPop.InsertGenome(parents[i]);
-            }
 
             m_generation++;
             m_evolving = false;
@@ -171,7 +180,8 @@ namespace GA
             {
                 return null;
             }
-            int noOfchildren = (int)((genoA.Fitness + genoB.Fitness)/2.0f);
+            //  int noOfchildren = (int)(((genoA.Fitness + genoB.Fitness)/4.0f)+((genoA.encoded.LifeSpan+genoB.encoded.LifeSpan)/4.0f));
+            int noOfchildren = 2;
             Genome[] children = new Genome[noOfchildren]; // 2 parents two children simple crossover
             if(Random.value > m_crossOverRate)
             {
@@ -227,31 +237,14 @@ namespace GA
 
                         if (geneAID.SequenceEqual(geneBID))
                         {
-                            //encapsulated two point crossover within uniform crossover
-                            switch (Random.Range(0, 2))
+                            //two point crossover
+                            int firstCutA = Random.Range(0, GeneData.geneValueLength - 1);
+                            int secondCutA = Random.Range(firstCutA, GeneData.geneValueLength);
+                            for (int k = firstCutA; k < secondCutA; k++)
                             {
-                                //two point crossover
-                                case 0:
-                                    {
-                                        //create random cuts within gene data
-                                        int firstCutA = Random.Range(0, GeneData.geneValueLength - 1);
-                                        int secondCutA = Random.Range(firstCutA, GeneData.geneValueLength);
-                                        for (int k = firstCutA; k < secondCutA; k++)
-                                        {
-                                            byte aux = geneAValue[k];
-                                            geneAValue[k] = geneBValue[k];
-                                            geneBValue[k] = aux;
-                                        }
-                                        break;
-                                    }
-                                //fully replace gene values in acordance to encapsulating uniform cross over
-                                case 1:
-                                    {
-                                        byte[] aux = geneAValue;
-                                        geneAValue = geneBValue;
-                                        geneBValue = aux;
-                                        break;
-                                    }
+                                byte aux = geneAValue[k];
+                                geneAValue[k] = geneBValue[k];
+                                geneBValue[k] = aux;
                             }
 
 

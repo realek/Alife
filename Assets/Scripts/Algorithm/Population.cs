@@ -10,6 +10,7 @@ namespace GA
         private System.Random m_Randomizer;
         [SerializeField]
         private List<Genome> m_Genomes;
+        [SerializeField]
         private Genome m_BestGenome;
         private int m_GenomeSize;
         private int m_Popsize;
@@ -41,30 +42,25 @@ namespace GA
             List<Genome> properGenomes = new List<Genome>();
             for (int i = 0; i < m_Genomes.Count; i++)
             {
-                if (m_Genomes[i].encoded != null)
+                m_Genomes[i].encoded = GenomeEncoder.Encode(m_Genomes[i]);
+                if (m_Genomes[i].encoded == null)
+                {
+                    m_Genomes[i].discarded = true;
+                }
+
+                if (!m_Genomes[i].discarded)
                 {
                     properGenomes.Add(m_Genomes[i]);
-                }
-                else
-                {
-                    m_Genomes[i].encoded = GenomeEncoder.Encode(m_Genomes[i]);
-                    if (m_Genomes[i].encoded == null)
-                    {
-                        m_Genomes[i].discarded = true;
-                    }
-
-                    if (!m_Genomes[i].discarded)
-                    {
-                        properGenomes.Add(m_Genomes[i]);
-                    }
                 }
 
             }
 
             m_Genomes = properGenomes;
+            float avgFitness = 0;
             for (int i = 0; i < m_Genomes.Count; i++)
             {
-                m_Genomes[i].Fitness = Fitness.FoodFitness(m_Genomes[i], FitnessFunction.FoodGathering);
+                m_Genomes[i].Fitness = Fitness.FoodFitness(m_Genomes[i]);
+                avgFitness += m_Genomes[i].Fitness;
                 if (i == 0)
                 {
                     m_BestGenome = m_Genomes[i];
@@ -74,6 +70,7 @@ namespace GA
                     m_BestGenome = m_Genomes[i];
                 }
             }
+            m_PopAvgFitness = avgFitness / m_Genomes.Count;
            }
 
         /// <summary>
@@ -97,6 +94,14 @@ namespace GA
         public int GenomeSize()
         {
             return m_Genomes[0].GenomeSize;
+        }
+
+        public float AverageFitness
+        {
+            get
+            {
+                return m_PopAvgFitness;
+            }
         }
 
         public Genome BestGenome

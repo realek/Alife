@@ -2,28 +2,20 @@
 
 namespace GA
 {
-    enum FitnessFunction
-    {
-        FoodGathering,
-        Meteor
-    }
     static class Fitness
     {
 
-        public static float FoodFitness(Genome Geno,FitnessFunction funcType)
+        public static float FoodFitness(Genome Geno)
         {
-            float fitness=0;
-
-            switch (funcType)
+            if (Geno.encoded.CanClimb)
             {
-                case FitnessFunction.FoodGathering:
-                    {
-                        fitness =  Geno.encoded.Speed;
-                        break;
-            
-                    }
+                return Geno.encoded.Speed + 1;
             }
-            return fitness;
+            else
+            {
+                return Geno.encoded.Speed;
+            }
+
         }
 
     }

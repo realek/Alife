@@ -111,11 +111,6 @@ namespace GA
             }
 
 
-            if (!hasColorGene)
-            {
-                color = Color.white; // Colorless creatures are albinos
-            }
-
             if (hasSizeGene && hasWeightGene && hasLifespanGene && hasPowerGene)
             {
                 eGeno = new EncodedGenome(color, nrArms, nrLegs, size, power, weight, lifespan);

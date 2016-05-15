@@ -10,8 +10,8 @@ public class WorldRunner : MonoBehaviour {
 
     //BASIC DATA
     private const int genomeSize = 63; // number of genes in genome;
-    private const int populationSize = 100;
-    private const int similarityRate = 85;
+    private const int populationSize = 50;
+    private const int similarityRate = 75;
     [SerializeField]
     private float timeStep = 1;
     WaitForSeconds m_w8;
