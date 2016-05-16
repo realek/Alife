@@ -169,7 +169,7 @@ namespace GA
                 return null;
             }
             int noOfchildren = 2;
-            Debug.Log(noOfchildren);
+            
             Genome[] children = new Genome[noOfchildren]; // 2 parents two children simple crossover
             if(Random.value > m_crossOverRate)
             {

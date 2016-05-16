@@ -8,11 +8,13 @@ public class UIManager : MonoBehaviour {
     int maxCreaturesOnScreen;
 
     [SerializeField]
-    Text GenerationCount,CreatureStats;
+    Text GenerationCount,CreatureStats,PopSize;
 
     MonsterRenderer mr;
     Camera cam;
     WorldRunner wr;
+
+    float fitnessUpdater;
 
 	// Use this for initialization
 	void Start () {
@@ -95,6 +97,14 @@ public class UIManager : MonoBehaviour {
     {
 
         GenerationCount.text = "Generation: "+GA.GeneticAlgorithm.Generation.ToString();
+
+        fitnessUpdater -= Time.timeScale;
+        if(fitnessUpdater<0)
+        {
+            PopSize.text = "Population Size: " + wr.CPopulation.PopulationSize + "\n Avg. Fitness: " + wr.CPopulation.AverageFitness;
+            fitnessUpdater = 10f;
+        }
+        
     }
 
     void HandleMaxCreatures()
