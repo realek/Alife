@@ -13,11 +13,11 @@ public class WorldRunner : MonoBehaviour {
     private const int populationSize = 50;
     private const int similarityRate = 75;
     [SerializeField]
-    private bool flood = false;
+    private bool m_flood = false;
     [SerializeField]
-    private bool meteor = false;
+    private bool m_meteor = false;
     [SerializeField]
-    private float timeStep = 1;
+    private float m_timeStep = 1;
     WaitForSeconds m_w8;
     //
     bool m_running;
@@ -26,7 +26,7 @@ public class WorldRunner : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
     m_running = true;
-        m_w8 = new WaitForSeconds(Time.deltaTime*timeStep);
+        m_w8 = new WaitForSeconds(Time.deltaTime*m_timeStep);
         GenomeSimilarityCalculator.SetSimilarityRate(similarityRate);
         population = new Population(populationSize, genomeSize);
         population.GenerateInitalPopulation();
@@ -42,7 +42,7 @@ public class WorldRunner : MonoBehaviour {
            // Debug.Log("Current gen: " + GeneticAlgorithm.Generation + " most fit is: " + population.BestGenome.Fitness);
             population = GeneticAlgorithm.EvolvePopulation(population);
             population.EvaluatePopulation();
-            population.MassExtinction(ref flood,ref meteor);
+            population.MassExtinction(ref m_flood,ref m_meteor);
             yield return m_w8;
 
 
@@ -50,6 +50,34 @@ public class WorldRunner : MonoBehaviour {
 
     }
 
+    public bool Flood
+    {
+        set
+        {
+            m_flood = value;
+        }
+    }
+
+    public bool Meteor
+    {
+        set
+        {
+            m_meteor = value;
+        }
+    }
+
+    public float TimeStep
+    {
+        get
+        {
+            return m_timeStep;
+        }
+
+        set
+        {
+            m_timeStep = value;
+        }
+    }
     public Population CPopulation 
     {
         get
