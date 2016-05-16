@@ -155,7 +155,7 @@ public class MonsterRenderer : MonoBehaviour {
         {
             if(!legs[i].alreadyUsed)
             {
-                legs[i].speed = speed;
+                legs[i].speed = speed/3f;
                 legs[i].transform.localScale *= power;
                 legs[i].alreadyUsed = true;
 

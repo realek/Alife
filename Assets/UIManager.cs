@@ -43,6 +43,13 @@ public class UIManager : MonoBehaviour {
     public void CauseFlood()
     {
         StartCoroutine(ShakeCam());
+        wr.Flood = true;
+    }
+
+    public void CauseMeteorite()
+    {
+        StartCoroutine(ShakeCam());
+        wr.Meteor = true;
     }
 
     public void ClickOnRender() {
